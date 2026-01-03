@@ -233,7 +233,7 @@ Everything else follows this table.
 | spectrum burst | on submit, all columns +40% then decay | ~600ms | none |
 | spectrum live pulse | +15% at ~90bpm while now-playing is live | continuous | none |
 | vinyl | one revolution per 4s while live | continuous | none |
-| theme switch | palette colours blend smoothly in place without moving the layout | 750ms | instant |
+| theme switch | palette colours blend smoothly in place without moving the layout | 950ms | instant |
 | row / link hover | background or colour change | 120ms | 120ms |
 | popup open / close | none. It appears. | 0 | 0 |
 | boot | lines print one by one | ≤ 900ms total | skipped |
