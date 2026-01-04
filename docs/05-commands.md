@@ -19,7 +19,7 @@ Aliases remain supported, and typing `/` opens autocomplete.
 ## tracks
 
 ### `/work`
-aliases `track 02`, `projects`, `side-a` · sets active nav `Work`
+aliases `track 02`, `side-a` · sets active nav `Work`
 ```
 > /work
 ● Side A — selected work. 09 tracks, mixed 2023–2026.
@@ -33,7 +33,7 @@ aliases `track 02`, `projects`, `side-a` · sets active nav `Work`
   08  StatisticalStudies ···················  WEB APPS           2025  04:37
   09  Developer Brain ······················  UNRELEASED         2026  ∞
 ```
-Rows are buttons → `/play <slug>`. Hover/focus swaps the duration for `▶`.
+Rows are buttons → `/projects <slug>`. Hover/focus swaps the duration for `▶`.
 
 ### `/b-sides`
 aliases `track 03`, `lab`, `side-b`, `bsides` · active nav `B-sides`
@@ -92,27 +92,10 @@ The intro turn (`/track 01`) prints the intro copy under the chip `> /track 01  
 ### `/help`
 aliases `?`, `commands`, `h` · layout above.
 
-### `/play <project>`
-aliases `open`, `p`
-Match: exact slug → case-insensitive title → subsequence over slug and title
-(so `/play cred`, `/play multi`, `/play flappy` all work). Ambiguous match
-lists the candidates as rows. No argument → same as `/shuffle`.
-```
-> /play credvault
-● CredVault                                        WEB3 · PLATFORM · 2025
-  ┌────────────────────────────┐
-  │                            │   Secure, decentralized issuance &
-  │        [cover art]         │   verification of credentials on the
-  │                            │   blockchain.
-  └────────────────────────────┘
-  track 01 of side A · 04:12
-  ↗ cred-vaulte.vercel.app
+### `/projects <project>`
+Opens a project by exact slug or title, or by a matching slug/title fragment. With no name, lists all Side A and Side B projects. After choosing `/projects` from prompt suggestions, the popup lists every project; typing filters by project name and slug. Selecting a project opens its card. Project cards link to the next project and back to their side.
 
-  ⎿ next: /play multiagent-builder · back: /work
-```
-The cover is the `cover` file inside a `frame`; B-sides show `blurb` and a
-`stack` line. `wip` cards show `UNRELEASED · in the studio` instead of a
-link. `next` wraps around within the same side.
+`/play` remains a hidden reserved command with no action.
 
 ### `/themes`
 aliases `colors`, `colours`
@@ -202,7 +185,7 @@ aliases `studio`, `wip`, `next`, `building`
   02  Developer Brain ····················  TOOLS LAB          2026
   03  Payline Slot Engine ················  GAMES              2026
 ```
-Rows → `/play`.
+Rows → `/projects <slug>`.
 
 ### `/sign`
 aliases `guestbook sign`, `signature`
@@ -255,9 +238,9 @@ Data from `STACK` in `data.js`. Three cells: daily 3, often 2, dabbled 1.
 ### `/shuffle`
 aliases `random`, `surprise`
 Prints `● Shuffling…`, then the title cell cycles through random titles for
-600ms (instant under reduced motion), then the turn becomes a `/play` card
+600ms (instant under reduced motion), then the turn becomes a `/projects` card
 for a random non-wip project. Not pushed to the URL as `/shuffle`; the
-resulting card pushes `/play/<slug>`.
+resulting card pushes `/projects/<slug>`.
 
 ### `/timeline`
 aliases `discography`, `years`
@@ -281,7 +264,7 @@ aliases `discography`, `years`
         └─ Snake                  GAMES
 ```
 Grouped by `year`, newest first, PROJECTS before BSIDES within a year, first
-tag only. Titles → `/play`.
+tag only. Titles → `/projects`.
 
 ### `/ascii`
 aliases `banner`, `logo`
@@ -364,7 +347,8 @@ Applies only when the input does not start with `/` (and is not an armed
 
 | keywords (any) | routes to |
 |---|---|
-| work, project, projects, built, portfolio, side a | `/work` |
+| work, built, portfolio, side a | `/work` |
+| project, projects | `/projects` |
 | lab, experiment, experiments, game, games, b-side, b-sides, side b | `/b-sides` |
 | who, about, bio, yourself, background | `/about` |
 | email, mail, contact, reach, hire, hiring, talk, linkedin | `/contact` |

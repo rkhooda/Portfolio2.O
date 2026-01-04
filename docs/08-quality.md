@@ -70,7 +70,7 @@ For each theme, with a contrast checker:
 - The identity block, nav links, bio hook and contact links exist in the
   static HTML.
 - `<noscript>` with the email, GitHub and LinkedIn links.
-- Every command URL (`/work`, `/play/credvault`, …) renders the intro plus
+- Every command URL (`/work`, `/projects/credvault`, …) renders the intro plus
   that turn on load, so shared links land on content.
 
 ## Security (phase 4)
@@ -86,7 +86,7 @@ For each theme, with a contrast checker:
 
 | file | covers |
 |---|---|
-| `test/shell.test.js` | parse, alias precedence, URL ↔ input, `/play` matching, `/track` argument forms |
+| `test/shell.test.js` | parse, alias precedence, URL ↔ input, `/projects` matching, `/track` argument forms |
 | `test/intent.test.js` | one example per intent row, greeting/thanks, did-you-mean cases |
 | `test/commands.test.js` | unique names and aliases, every non-hidden command has group + summary, `/help` covers every non-hidden command |
 | `test/guestbook.test.js` | the `clean` guard, ported from the old repo |

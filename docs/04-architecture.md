@@ -125,7 +125,7 @@ Rules:
 
 ```
 input string
-  → shell.parse(input)         "/play cred vault" → { name: "play", args: "cred vault" }
+  → shell.parse(input)         "/projects cred vault" → { name: "projects", args: "cred vault" }
   → registry.resolve(name)     canonical entry via name or alias; null if none
   → if null and input starts with "/": intent.didYouMean(name) → error turn
   → if null and plain text:     intent.route(input) → command | reply turn
@@ -151,7 +151,7 @@ Path is the command and its args, `/`-joined and URL-encoded:
 |---|---|
 | `/work` | `/work` |
 | `/track 03` | `/track/03` |
-| `/play credvault` | `/play/credvault` |
+| `/projects credvault` | `/projects/credvault` |
 | `/clear` | `/` |
 | hidden commands | no change |
 
@@ -176,11 +176,10 @@ animation: keyboard-initiated actions never animate.
 
 ## Autocomplete and history
 
-- The popup source is the registry minus `hidden`. On focus with an empty
-  input it shows the six "suggested" entries (`help`, `work`, `now-playing`,
-  `themes`, `about`, `contact`). Once the input starts with `/`, it shows
-  everything matching: prefix match first, then subsequence match, in
-  registry order within each tier. Max 8 rows visible; the list scrolls.
+- The popup source is the registry minus `hidden`. Clicking the empty prompt
+  shows every available command; initial programmatic focus does not open it.
+  Slash input filters commands. After `/projects `, it shows matching projects
+  from Side A and Side B. Max 8 rows visible; the list scrolls.
 - History is `state.history`. `↑`/`↓` walk it only when the popup is closed
   or the input is empty; otherwise the arrows move the popup selection.
 - `/` anywhere on the page (not inside an input) focuses the prompt.

@@ -155,7 +155,7 @@ in `--accent`, note in `--muted`.
   └──────────────────────────┘
 ```
 Drawn with real box-drawing characters in `--line`, one per cell, so it
-stays on the grid at any width. Used for the `/play` cover and the player.
+stays on the grid at any width. Used for the `/projects` cover and the player.
 
 ### bar — cells
 ```

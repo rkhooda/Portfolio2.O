@@ -62,7 +62,7 @@ The intro turn's chip reads `> /track 01  Intro`.
 
 ## Side A — PROJECTS
 
-Order is tracklist order. `slug` is what `/play` matches and what the URL
+Order is tracklist order. `slug` is what `/projects` matches and what the URL
 uses. `wip: true` renders an `UNRELEASED` tag, `--:--` duration, no link.
 
 ```js
@@ -108,7 +108,7 @@ export const PROJECTS = [
 
 ## Side B — BSIDES
 
-`blurb` is the long description shown on the `/play` card; `desc` is the
+`blurb` is the long description shown on the `/projects` card; `desc` is the
 tracklist line.
 
 ```js
@@ -271,7 +271,7 @@ Awake window: 09:00–02:00 IST.
 - header: `The mixer — no percentages, just how often the fader's up`
 
 ### Shuffle
-- header while flickering: `Shuffling…` · then the `/play` card
+- header while flickering: `Shuffling…` · then the `/projects` card
 
 ### Timeline
 - header: `Discography` · wip suffix: `· in the studio`

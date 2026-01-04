@@ -37,14 +37,14 @@ Commit: `feat: static intro shell and design tokens`
 
 ## [ ] Phase 1 — Shell: commands, transcript, URL
 
-Read: `04-architecture.md`, `05-commands.md` (tracks, `/help`, `/play`, `/clear`), `02-content.md` (track intros, errors).
+Read: `04-architecture.md`, `05-commands.md` (tracks, `/help`, `/projects`, `/clear`), `02-content.md` (track intros, errors).
 
 Build:
 - `js/state.js` with accessors and the event bus.
 - `js/render.js`: `chip`, `bullet`, `tool`, `row`, `kv`, `frame`, `link`,
   `tree` (the rest come with their commands).
 - `js/commands.js` with `/help`, `/track`, `/work`, `/b-sides`, `/about`
-  (static parts only), `/contact` (with copy email), `/play`, `/clear`.
+  (static parts only), `/contact` (with copy email), `/projects`, `/clear`.
 - `js/shell.js`: parse, alias resolution (exported pure), submit, transcript
   append with the stdout reveal, scroll-to-top, URL push/popstate, nav
   interception with the typing animation, active-nav highlight, `Ctrl+L`,
@@ -52,14 +52,14 @@ Build:
 - `js/boot.js` for now just imports and starts the shell (the boot sequence
   arrives in phase 3).
 - `test/shell.test.js`: parse cases, alias precedence (`track 02` over
-  `track`), URL ↔ input round-trips, `/play` matching (exact, title,
+  `track`), URL ↔ input round-trips, `/projects` matching (exact, title,
   subsequence, ambiguous).
 
 Done when:
 - Clicking "About" types `/about` and runs it; the turn scrolls to the top
   under the header; the nav highlights About.
-- Typing `/play cred` opens the CredVault card; `next` walks side A.
-- Reload on `/play/credvault` reproduces the turn; back button re-runs the
+- Typing `/projects cred` opens the CredVault card; `next` walks side A.
+- Reload on `/projects/credvault` reproduces the turn; back button re-runs the
   previous command; `/clear` returns to `/`.
 - `grep -r innerHTML js/` returns nothing.
 
