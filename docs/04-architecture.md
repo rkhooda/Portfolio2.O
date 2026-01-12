@@ -77,8 +77,6 @@ treat a throw as "no storage".
 Who listens to what:
 - `rain.js` listens to `theme` (re-read the CSS tokens), `turn` (burst),
   `rain` level, and `live` (pulse on/off).
-- `shell.js` listens to `clear` (empty the transcript container) and
-  `theme` (run the redraw wipe).
 - The header nav listens to `turn` to move the accent to the active track.
 - The vinyl listens to `live` to start/stop spinning.
 

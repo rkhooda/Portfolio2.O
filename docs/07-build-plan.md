@@ -139,11 +139,11 @@ Commit: `feat: last.fm player, github graph, guestbook and status`
 
 ## [ ] Phase 5 — Themes
 
-Read: `03-design-system.md` (themes, redraw wipe), `05-commands.md` (`/themes`).
+Read: `03-design-system.md` (themes, palette transitions), `05-commands.md` (`/themes`).
 
 Build:
 - `/themes` picker, palette previews, persistence, `color-scheme`
-  and `theme-color` meta updates, the top-to-bottom redraw wipe, the rain
+  and `theme-color` meta updates, smooth in-place palette transitions, the rain
   re-reading its tokens, the amber scanline overlay.
 
 Done when:
@@ -151,7 +151,7 @@ Done when:
   (check `--muted`/`--bg` and `--accent`/`--bg` with a contrast tool).
 - Theme survives reload; the page never flashes the wrong theme on load
   (apply `data-theme` from storage in an inline script in `<head>` before CSS paints).
-- The wipe is instant under reduced motion.
+- Palette transitions are instant under reduced motion.
 
 Commit: `feat: five themes with /themes picker`
 
