@@ -142,7 +142,7 @@ Commit: `feat: last.fm player, github graph, guestbook and status`
 Read: `03-design-system.md` (themes, redraw wipe), `05-commands.md` (`/themes`).
 
 Build:
-- `/themes`, `/theme <name>`, `render.swatch`, persistence, `color-scheme`
+- `/themes` picker, palette previews, persistence, `color-scheme`
   and `theme-color` meta updates, the top-to-bottom redraw wipe, the rain
   re-reading its tokens, the amber scanline overlay.
 
@@ -153,7 +153,7 @@ Done when:
   (apply `data-theme` from storage in an inline script in `<head>` before CSS paints).
 - The wipe is instant under reduced motion.
 
-Commit: `feat: five themes with /themes and /theme`
+Commit: `feat: five themes with /themes picker`
 
 ## [ ] Phase 6 — B-sides and easter eggs
 

@@ -264,9 +264,7 @@ Awake window: 09:00–02:00 IST.
 - network error on `/sign`: `Couldn't reach the sleeve. Try again in a minute.`
 
 ### Themes
-- header: `Themes` · footer: `/theme <name> to switch. Click a row too.`
-- after switch: `Theme: {name}.`
-- unknown theme: `No theme called {x}. /themes lists them.`
+- header: `Themes` · each option shows its name, description, palette, and current state. Selecting a row applies that theme.
 - descriptions: `midnight  the reference mix` · `night-sage  the first album` · `amber  phosphor` · `paper  liner notes, in daylight` · `neon  side B at 2am`
 
 ### Stack

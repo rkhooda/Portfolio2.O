@@ -154,7 +154,6 @@ Path is the command and its args, `/`-joined and URL-encoded:
 | `/work` | `/work` |
 | `/track 03` | `/track/03` |
 | `/play credvault` | `/play/credvault` |
-| `/theme amber` | `/theme/amber` |
 | `/clear` | `/` |
 | hidden commands | no change |
 

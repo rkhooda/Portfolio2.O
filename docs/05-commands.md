@@ -114,21 +114,9 @@ The cover is the `cover` file inside a `frame`; B-sides show `blurb` and a
 `stack` line. `wip` cards show `UNRELEASED · in the studio` instead of a
 link. `next` wraps around within the same side.
 
-### `/themes` and `/theme <name>`
-aliases `theme` (no arg → list), `colors`, `colours`
-```
-> /themes
-● Themes
-  ██ ██ ██  midnight     the reference mix          ← current
-  ██ ██ ██  night-sage   the first album
-  ██ ██ ██  amber        phosphor
-  ██ ██ ██  paper        liner notes, in daylight
-  ██ ██ ██  neon         side B at 2am
-  /theme <name> to switch. Click a row too.
-```
-`/theme amber` → `state.setTheme`, the redraw wipe, and a one-line turn
-`● Theme: amber.` Unknown name → `No theme called x. /themes lists them.`
-The theme persists in localStorage.
+### `/themes`
+aliases `colors`, `colours`
+Lists every theme with its name, description, and a four-colour palette preview. The current theme is marked. Select any row to switch themes; the selection and current marker update immediately. The theme persists in localStorage.
 
 ### `/resume`
 aliases `cv`
