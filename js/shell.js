@@ -20,7 +20,7 @@ function suggestions(){const q=input.value.trim(),slash=q.startsWith('/');popup.
 if(globalThis.document){
  form.addEventListener('submit',e=>{e.preventDefault();const selected=popup.querySelector('[role=option][aria-selected="true"]');submit(selected&&!popup.hidden?selected.firstElementChild.textContent:input.value)});
  input.addEventListener('input',()=>{selection=0;updateCursor();suggestions()});
- input.addEventListener('focus',()=>{updateCursor();suggestions()});
+ input.addEventListener('focus',updateCursor);
  input.addEventListener('keyup',updateCursor);
  input.addEventListener('click',e=>{updateCursor();suggestions();e.stopPropagation()});
  input.addEventListener('select',updateCursor);
