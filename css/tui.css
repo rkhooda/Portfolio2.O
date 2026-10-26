@@ -39,9 +39,10 @@ main#main{position:relative;z-index:1;width:100%;max-width:none;height:calc(100d
 .prompt-text{color:transparent;white-space:pre}
 .prompt-cursor{display:none;width:.62em;height:1.25em;background:var(--accent);vertical-align:middle;margin-left:1px;box-shadow:0 0 8px color-mix(in srgb,var(--accent) 40%,transparent);border-radius:1px}
 #prompt:focus + .prompt-mirror .prompt-cursor{display:inline-block;opacity:1}
-.popup{left:clamp(2ch,4vw,8ch);right:clamp(2ch,4vw,8ch);transform:none;width:auto;bottom:calc(var(--lh) * 3 + max(.35rem,env(safe-area-inset-bottom)));max-height:min(17rem,calc(100dvh - var(--lh) * 4 - env(safe-area-inset-bottom)));overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;scrollbar-width:none;-ms-overflow-style:none}
+.popup{left:clamp(2ch,4vw,8ch);right:clamp(2ch,4vw,8ch);transform:none;width:auto;bottom:calc(var(--lh) * 3 + max(.35rem,env(safe-area-inset-bottom)));max-height:min(17rem,calc(100dvh - var(--lh) * 4 - env(safe-area-inset-bottom)));overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;scrollbar-width:none;-ms-overflow-style:none;padding-top:.5rem}
 .popup::-webkit-scrollbar{display:none}
-.popup button{min-width:0}
+.popup button{min-width:0;padding:.35rem 1ch}
+.popup button:first-child{margin-top:0}
 .popup small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .popup-footer{position:sticky;bottom:0}
 @media(max-width:899px){
