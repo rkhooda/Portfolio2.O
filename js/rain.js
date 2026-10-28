@@ -26,7 +26,7 @@ function draw(now=0,force=false){
   context.textBaseline='top';
   const cellWidth=context.measureText('#').width;
   const columns=Math.floor(width/cellWidth);
-  const rows=innerWidth<900?8:14;
+  const rows=Math.max(1,Math.floor(height/lineHeight));
   const loud=level==='loud'?1.7:1;
   const pulse=live&&!state.reduced()?1+.18*(.5+.5*Math.sin(now/650)):1;
   const burstScale=1+burst*.45;
