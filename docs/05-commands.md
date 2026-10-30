@@ -7,43 +7,13 @@ strings come from `02-content.md`; do not invent new ones here.
 
 Groups: `tracks` · `core` · `live` · `b-sides` · `hidden`.
 
-## `/help` — how it lays out the groups
+## `/help` — command index
 
-```
-> /help
-● Commands. Type / to autocomplete, ↑ for history, Tab to complete.
-
-  tracks
-  /work              Selected work — side A
-  /b-sides           The lab — side B
-  /about             Liner notes
-  /contact           Outro — let's talk
-  /track <n>         Play a track by number, 01–05
-
-  core
-  /help              This list
-  /play <project>    Open a project; no argument shuffles
-  /themes            List themes         /theme <name>   Switch
-  /resume            Résumé (PDF)
-  /share             Copy a link to this command
-  /clear             Wipe the transcript (Ctrl+L)
-
-  live
-  /now-playing       What's on, via Spotify
-  /github            Contributions, last 12 months
-  /status            Time, streak, what's building, what's playing
-  /queue             In the studio
-  /sign              Sign the sleeve       /guestbook      Read the sleeve
-
-  b-sides
-  /stack  /shuffle  /timeline  /ascii  /ls  /cat <file>  /eq  /history  /version  /credits
-
-  Free text works too — ask about work, music, or contact.
-```
-
-Each `/command` in the list is clickable and runs it. Hidden commands are
-not listed.
-
+Shows every non-hidden command in four sections: Side A pages, session tools,
+live data, and Side B utilities. Each command is a full-width button with its
+usage and summary. Clicking a command without arguments runs it; clicking a
+command that needs an argument fills the prompt so the visitor can complete it.
+Aliases remain supported, and typing `/` opens autocomplete.
 ---
 
 ## tracks
