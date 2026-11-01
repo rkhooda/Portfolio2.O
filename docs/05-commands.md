@@ -384,11 +384,11 @@ appear in the transcript. All replies are in `02-content.md`.
 - **Opens** on prompt focus (empty input → the six suggested: `help`,
   `work`, `now-playing`, `themes`, `about`, `contact`) and whenever the
   input starts with `/`.
-- **Filters** by the text after `/` up to the first space: prefix matches
-  first, then subsequence matches (`/np` → `now-playing` via alias,
-  `/gtb` → `github`), preserving registry order inside each tier. Aliases
-  match but the row shows the canonical name. Once a space is typed, the
-  popup closes (args are free text).
+- **Filters** by the text after `/` up to the first space: exact canonical
+  names first, then canonical-name prefixes, alias prefixes, and subsequence
+  matches (`/np` → `now-playing` via alias, `/gtb` → `github`), preserving
+  registry order inside each tier. Aliases match but the row shows the
+  canonical name. Once a space is typed, the popup closes (args are free text).
 - **Keys**: `↑`/`↓` move the selection (wrapping), `Tab` completes the
   selected name into the input and adds a trailing space if the command
   takes args, `Enter` runs the selected row (or the raw input when nothing

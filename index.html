@@ -20,5 +20,5 @@
   </main>
   <div id="popup" class="popup" role="listbox" aria-label="Commands" hidden></div>
   <form id="promptbar" autocomplete="off"><div class="prompt-inner"><label for="prompt">&gt;</label><input id="prompt" aria-label="Terminal command" placeholder="/now-playing"><span class="prompt-hint">/ for commands</span><button type="submit" aria-label="Run command">↵</button></div></form>
-  <script defer src="/_vercel/insights/script.js"></script><script type="module" src="/js/boot.js"></script>
+  <script>if(location.hostname!=="localhost"&&location.hostname!=="127.0.0.1"){const analytics=document.createElement("script");analytics.defer=true;analytics.src="/_vercel/insights/script.js";document.head.append(analytics)}</script><script type="module" src="/js/boot.js"></script>
 <script>document.querySelector('#intro .chip')?.addEventListener('click',()=>{const p=document.querySelector('#prompt');p.value='/track 01';document.querySelector('#promptbar').requestSubmit()})</script></body></html>
