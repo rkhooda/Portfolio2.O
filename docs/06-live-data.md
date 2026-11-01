@@ -80,14 +80,16 @@ Moderation is manual: `LREM` from the Upstash console.
 Port the old `test/guestbook.js` to `test/guestbook.test.js` under
 `node --test`; it stubs Upstash and needs no account.
 
-### Legacy source availability
+### Legacy source restoration
 
-The legacy checkout at the path above was not present during the continuation
-build. The current endpoint was reconstructed from these contracts and its
-guards are covered by local tests; its blocklist is currently the documented
-implementation's `scam`/`spam` baseline and has not been compared with the old
-site's full list. Restore/inspect the legacy source and reconcile that list
-before production guestbook writes are enabled.
+The original checkout was recovered at `/Users/rkhooda/Desktop/Coding/Portfolio`
+(the earlier nested path in this brief was incorrect). The guestbook endpoint
+and its full blocked-word list have been restored from that checkout. The 14
+cover assets specified in `02-content.md` were copied from `assets/img/covers/`.
+The original blocklist, validation, origin guard, honeypot, one-per-hour hashed
+IP rate limit, 200-entry retention, and lifetime count are covered by
+`test/guestbook.test.js`. Review the recovered moderation list before enabling
+public writes if its policy changes.
 
 ## `api/version.js` — new
 

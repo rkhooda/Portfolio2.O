@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <!-- Multiagent Builder: the pipeline as a workflow graph. The brief fans
+       out to the agents, merges, passes the gates, lands as a project. A run
+       lights it stage by stage while the connections keep flowing. -->
+  <style>
+    .n rect, .n circle, .n path { transition: none; }
+    .n > rect:first-child { fill: #141614; stroke: currentColor; stroke-width: 3.5; }
+    .n .in  { fill: #2a2d28; stroke: currentColor; stroke-width: 2.5; }
+    .n .out { fill: currentColor; }
+    .e { fill: none; stroke: currentColor; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 16 14; animation: flow .9s linear infinite; }
+    .n, .e { color: #6a6e66; animation-name: none; }
+    .s0 { animation: s0 9s steps(1,end) infinite; }
+    .s1 { animation: s1 9s steps(1,end) infinite; }
+    .s2 { animation: s2 9s steps(1,end) infinite; }
+    .s3 { animation: s3 9s steps(1,end) infinite; }
+    .s4 { animation: s4 9s steps(1,end) infinite; }
+    .e.s1, .e.s2, .e.s3, .e.s4 { animation-name: flow, var(--st); animation-duration: .9s, 9s; animation-timing-function: linear, steps(1,end); animation-iteration-count: infinite, infinite; }
+    .e.s1 { --st: s1; } .e.s2 { --st: s2; } .e.s3 { --st: s3; } .e.s4 { --st: s4; }
+    @keyframes flow { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
+    @keyframes s0 { 0%,3.99% { color: #6a6e66; } 4%,90% { color: #a8b58a; } 94%,100% { color: #6a6e66; } }
+    @keyframes s1 { 0%,18.99% { color: #6a6e66; } 19%,90% { color: #a8b58a; } 94%,100% { color: #6a6e66; } }
+    @keyframes s2 { 0%,35.99% { color: #6a6e66; } 36%,90% { color: #a8b58a; } 94%,100% { color: #6a6e66; } }
+    @keyframes s3 { 0%,52.99% { color: #6a6e66; } 53%,90% { color: #a8b58a; } 94%,100% { color: #6a6e66; } }
+    @keyframes s4 { 0%,69.99% { color: #6a6e66; } 70%,90% { color: #a8b58a; } 94%,100% { color: #6a6e66; } }
+    @media (prefers-reduced-motion: reduce) { .n, .e { animation: none !important; color: #a8b58a; } }
+  </style>
+  <defs>
+    <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#181916"/>
+      <stop offset="1" stop-color="#0b0c0b"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="800" cy="500" r="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a8b58a" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#a8b58a" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="1.6" fill="#eaeae2" fill-opacity="0.08"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#ground)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+  <rect width="1600" height="1000" fill="url(#halo)"/>
+
+  <g opacity="0.9">
+    <path class="e s1" d="M308 500 C405 500 405 300 502 300"/>
+    <path class="e s1" d="M308 500 C405 500 405 500 502 500"/>
+    <path class="e s1" d="M308 500 C405 500 405 700 502 700"/>
+    <path class="e s2" d="M618 300 C715 300 715 500 812 500"/>
+    <path class="e s2" d="M618 500 C715 500 715 500 812 500"/>
+    <path class="e s2" d="M618 700 C715 700 715 500 812 500"/>
+    <path class="e s3" d="M928 500 C1015 500 1015 380 1102 380"/>
+    <path class="e s3" d="M928 500 C1015 500 1015 620 1102 620"/>
+    <path class="e s4" d="M1218 380 C1290 380 1290 500 1362 500"/>
+    <path class="e s4" d="M1218 620 C1290 620 1290 500 1362 500"/>
+  </g>
+  <g class="n s0" transform="translate(250 500)"><rect x="-58" y="-58" width="116" height="116" rx="26"/><rect class="in" x="-63" y="-11" width="9" height="22" rx="3"/><circle class="out" cx="58" cy="0" r="9"/><path d="M-18 -14 H18 M-18 0 H18 M-18 14 H4" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/></g>
+  <g class="n s1" transform="translate(560 300)"><rect x="-58" y="-58" width="116" height="116" rx="26"/><rect class="in" x="-63" y="-11" width="9" height="22" rx="3"/><circle class="out" cx="58" cy="0" r="9"/><path d="M0 -20 L5 -5 L20 0 L5 5 L0 20 L-5 5 L-20 0 L-5 -5 Z" fill="currentColor"/></g>
+  <g class="n s1" transform="translate(560 500)"><rect x="-58" y="-58" width="116" height="116" rx="26"/><rect class="in" x="-63" y="-11" width="9" height="22" rx="3"/><circle class="out" cx="58" cy="0" r="9"/><path d="M0 -20 L5 -5 L20 0 L5 5 L0 20 L-5 5 L-20 0 L-5 -5 Z" fill="currentColor"/></g>
+  <g class="n s1" transform="translate(560 700)"><rect x="-58" y="-58" width="116" height="116" rx="26"/><rect class="in" x="-63" y="-11" width="9" height="22" rx="3"/><circle class="out" cx="58" cy="0" r="9"/><path d="M0 -20 L5 -5 L20 0 L5 5 L0 20 L-5 5 L-20 0 L-5 -5 Z" fill="currentColor"/></g>
+  <g class="n s2" transform="translate(870 500)"><rect x="-58" y="-58" width="116" height="116" rx="26"/><rect class="in" x="-63" y="-11" width="9" height="22" rx="3"/><circle class="out" cx="58" cy="0" r="9"/><path d="M-18 -16 L0 0 L-18 16 M0 0 H18" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+  <g class="n s3" transform="translate(1160 380)"><rect x="-58" y="-58" width="116" height="116" rx="26"/><rect class="in" x="-63" y="-11" width="9" height="22" rx="3"/><circle class="out" cx="58" cy="0" r="9"/><path d="M-9 -18 V18 M9 -18 V18" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/></g>
+  <g class="n s3" transform="translate(1160 620)"><rect x="-58" y="-58" width="116" height="116" rx="26"/><rect class="in" x="-63" y="-11" width="9" height="22" rx="3"/><circle class="out" cx="58" cy="0" r="9"/><path d="M-16 2 L-5 13 L16 -12" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+  <g class="n s4" transform="translate(1420 500)"><rect x="-58" y="-58" width="116" height="116" rx="26"/><rect class="in" x="-63" y="-11" width="9" height="22" rx="3"/><circle class="out" cx="58" cy="0" r="9"/><path d="M-18 -16 H0 M-10 0 H14 M-10 16 H6 M-14 -16 V16" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/></g>
+</svg>
