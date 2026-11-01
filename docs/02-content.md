@@ -258,6 +258,7 @@ Awake window: 09:00–02:00 IST.
 - empty: `Nobody has signed yet. /sign to be first.`
 - form title: `Sign the sleeve` · fields `name` (24 max) · `note` (140 max) · button `Sign` · `Cancel`
 - success: `Signed. Thanks for listening.`
+- missing name or note: `Name and note are required.`
 - server errors are shown verbatim (they are already written for visitors: `one signature an hour — come back later`, `that word isn't welcome here`).
 - unreachable (`/guestbook`): `The sleeve is in the other room. Try again in a minute.`
 - network error on `/sign`: `Couldn't reach the sleeve. Try again in a minute.`

@@ -1,1 +1,1 @@
-module.exports=(req,res)=>{res.setHeader('Cache-Control','s-maxage=3600, stale-while-revalidate=86400');res.json({sha:(process.env.VERCEL_GIT_COMMIT_SHA||'').slice(0,7),ref:process.env.VERCEL_GIT_COMMIT_REF||''})};
+module.exports=(req,res)=>{res.setHeader('Cache-Control','s-maxage=3600, stale-while-revalidate=86400');if(req.method!=='GET')return res.status(405).json({error:'Method not allowed'});res.json({sha:(process.env.VERCEL_GIT_COMMIT_SHA||'').slice(0,7),ref:process.env.VERCEL_GIT_COMMIT_REF||''})};

@@ -80,6 +80,15 @@ Moderation is manual: `LREM` from the Upstash console.
 Port the old `test/guestbook.js` to `test/guestbook.test.js` under
 `node --test`; it stubs Upstash and needs no account.
 
+### Legacy source availability
+
+The legacy checkout at the path above was not present during the continuation
+build. The current endpoint was reconstructed from these contracts and its
+guards are covered by local tests; its blocklist is currently the documented
+implementation's `scam`/`spam` baseline and has not been compared with the old
+site's full list. Restore/inspect the legacy source and reconcile that list
+before production guestbook writes are enabled.
+
 ## `api/version.js` — new
 
 ```js
