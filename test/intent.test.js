@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {route,didYouMean} from '../js/intent.js';
+test('intent routes representative language and replies',()=>{assert.equal(route('what are you building').command,'/queue');assert.match(route('hey').reply,/Hey/);assert.match(route('thanks').reply,/Anytime/)});test('did you mean finds close command',()=>assert.equal(didYouMean('wrok',['work','contact']),'work'));

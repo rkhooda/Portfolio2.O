@@ -1,0 +1,1 @@
+import {setLive} from './state.js';export async function get(url,signal){const r=await fetch(url,{signal});if(!r.ok)throw Error('offline');return r.json()}export async function poll(){try{const v=await get('/api/nowplaying');setLive({np:v,npLive:!!v.live});return v}catch{setLive({np:null,npLive:false});throw Error('offline')}}

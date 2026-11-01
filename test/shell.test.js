@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {parse,resolve,pathFor,resolveInput} from '../js/shell.js';
+test('parse supports slash and arguments',()=>{assert.deepEqual(parse('/play cred vault'),{name:'play',args:'cred vault'});assert.deepEqual(parse('track 02'),{name:'track',args:'02'});assert.equal(parse('  '),null)});
+test('aliases resolve and URLs round trip',()=>{assert.equal(resolve('projects').name,'work');assert.equal(resolveInput('track 02').command.name,'work');assert.equal(resolveInput('guestbook sign').command.name,'sign');assert.equal(pathFor('/play credvault'),'/play/credvault')});

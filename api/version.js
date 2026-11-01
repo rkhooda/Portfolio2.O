@@ -1,0 +1,1 @@
+module.exports=(req,res)=>{res.setHeader('Cache-Control','s-maxage=3600, stale-while-revalidate=86400');res.json({sha:(process.env.VERCEL_GIT_COMMIT_SHA||'').slice(0,7),ref:process.env.VERCEL_GIT_COMMIT_REF||''})};
