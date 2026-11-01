@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import nowplaying from '../api/nowplaying.js';
 import github from '../api/github.js';
 import version from '../api/version.js';
+const originalNodeEnv=process.env.NODE_ENV;
+process.env.NODE_ENV='test';
 
 function response(){
   let status=200,json;
@@ -12,21 +14,63 @@ function response(){
 const originalEnv={...process.env};
 const originalFetch=globalThis.fetch;
 
-test('nowplaying is an offline-safe GET when credentials are absent',async()=>{
-  delete process.env.LASTFM_KEY;delete process.env.LASTFM_USER;
+function setSpotifyCredentials(){
+  process.env.SPOTIFY_CLIENT_ID='test-client';
+  process.env.SPOTIFY_CLIENT_SECRET='test-secret';
+  process.env.SPOTIFY_REFRESH_TOKEN='test-refresh';
+  nowplaying._test.reset();
+}
+function tokenResponse(access='test-access'){
+  return{ok:true,status:200,json:async()=>({access_token:access,expires_in:3600,token_type:'Bearer'})};
+}
+const track={type:'track',name:'Track',artists:[{name:'Artist One'},{name:'Artist Two'}],album:{name:'Album',images:[{url:'https://spotify.test/cover.jpg'}]},external_urls:{spotify:'https://open.spotify.com/track/abc'}};
+
+test('Spotify nowplaying returns offline when credentials are missing',async()=>{
+  for(const key of ['SPOTIFY_CLIENT_ID','SPOTIFY_CLIENT_SECRET','SPOTIFY_REFRESH_TOKEN'])delete process.env[key];
+  globalThis.fetch=async()=>{throw Error('must not fetch without credentials')};
   const out=response();await nowplaying({method:'GET'},out.res);
-  assert.equal(out.out().status,503);assert.match(out.out().headers['Cache-Control'],/s-maxage=30/);
+  assert.equal(out.out().status,503);assert.deepEqual(out.out().json,{error:'offline'});assert.match(out.out().headers['Cache-Control'],/s-maxage=30/);
 });
-test('nowplaying maps the original bare-object and array response shapes plus album art',async()=>{
-  process.env.LASTFM_KEY='test';process.env.LASTFM_USER='test';
-  globalThis.fetch=async()=>({json:async()=>({recenttracks:{track:[{'@attr':{nowplaying:'true'},name:'Track',artist:{'#text':'Artist'},album:{'#text':'Album'},image:[{size:'large','#text':'https://last.fm/large'},{size:'extralarge','#text':'https://last.fm/cover'}]}]}})});
+test('Spotify token refresh maps track, artists, album art and URL',async()=>{
+  setSpotifyCredentials();let tokenBody,authorization;
+  globalThis.fetch=async(url,options)=>{
+    if(String(url).includes('/api/token')){tokenBody=String(options.body);authorization=options.headers.Authorization;return tokenResponse()}
+    assert.equal(options.headers.Authorization,'Bearer test-access');
+    return{ok:true,status:200,json:async()=>({is_playing:true,item:track})};
+  };
   const out=response();await nowplaying({method:'GET'},out.res);
-  assert.deepEqual(out.out().json,{live:true,artist:'Artist',track:'Track',album:'Album',image:'https://last.fm/cover'});
+  assert.deepEqual(out.out().json,{live:true,paused:false,artist:'Artist One, Artist Two',track:'Track',album:'Album',image:'https://spotify.test/cover.jpg',url:'https://open.spotify.com/track/abc'});
+  assert.match(tokenBody,/grant_type=refresh_token/);assert.match(tokenBody,/refresh_token=test-refresh/);
+  assert.equal(authorization,`Basic ${Buffer.from('test-client:test-secret').toString('base64')}`);
+  assert.doesNotMatch(JSON.stringify(out.out().json),/test-secret|test-access|test-refresh/);
 });
-test('nowplaying omits Last.fm placeholder artwork and retains scrobble time',async()=>{
-  globalThis.fetch=async()=>({json:async()=>({recenttracks:{track:{name:'Track',artist:{name:'Artist'},album:{'#text':'Album'},image:[{size:'extralarge','#text':'https://last.fm/2a96cbd8b46e442fc41c2b86b821562f'}],date:{uts:'1793510400'}}}})});
+test('Spotify paused playback retains the track but reports live false',async()=>{
+  setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():{ok:true,status:200,json:async()=>({is_playing:false,item:track})};
   const out=response();await nowplaying({method:'GET'},out.res);
-  assert.deepEqual(out.out().json,{live:false,artist:'Artist',track:'Track',album:'Album',image:'',playedAt:new Date(1793510400*1000).toISOString()});
+  assert.equal(out.out().json.live,false);assert.equal(out.out().json.paused,true);assert.equal(out.out().json.track,'Track');
+});
+test('Spotify 204 maps to the established empty playback shape',async()=>{
+  setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():{ok:false,status:204};
+  const out=response();await nowplaying({method:'GET'},out.res);
+  assert.deepEqual(out.out().json,{live:false,paused:false,artist:'',track:'',album:'',image:'',url:''});
+});
+test('Spotify retries an expired access token once',async()=>{
+  setSpotifyCredentials();let refreshes=0,plays=0;
+  globalThis.fetch=async url=>{
+    if(String(url).includes('/api/token'))return tokenResponse(`access-${++refreshes}`);
+    if(++plays===1)return{ok:false,status:401};
+    return{ok:true,status:200,json:async()=>({is_playing:true,item:track})};
+  };
+  const out=response();await nowplaying({method:'GET'},out.res);
+  assert.equal(refreshes,2);assert.equal(plays,2);assert.equal(out.out().json.live,true);
+});
+test('Spotify rate limits and upstream errors use a safe offline fallback',async()=>{
+  setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():{ok:false,status:429,headers:{get:()=> '30'}};
+  const limited=response();await nowplaying({method:'GET'},limited.res);
+  assert.equal(limited.out().status,503);assert.deepEqual(limited.out().json,{error:'offline'});assert.equal(limited.out().headers['Retry-After'],'30');
+  nowplaying._test.reset();globalThis.fetch=async()=>({ok:false,status:400});
+  const failed=response();await nowplaying({method:'GET'},failed.res);
+  assert.deepEqual(failed.out().json,{error:'offline'});
 });
 test('GitHub endpoint preserves the original count calendar contract',async()=>{
   process.env.GH_TOKEN='test';process.env.GH_USER='rkhooda';
@@ -46,7 +90,8 @@ test('GitHub and version expose documented fallbacks and fields',async()=>{
 });
 test.after(()=>{
   globalThis.fetch=originalFetch;
-  for(const key of ['LASTFM_KEY','LASTFM_USER','GH_TOKEN','GH_USER','VERCEL_GIT_COMMIT_SHA','VERCEL_GIT_COMMIT_REF']){
+  for(const key of ['SPOTIFY_CLIENT_ID','SPOTIFY_CLIENT_SECRET','SPOTIFY_REFRESH_TOKEN','GH_TOKEN','GH_USER','VERCEL_GIT_COMMIT_SHA','VERCEL_GIT_COMMIT_REF']){
     if(originalEnv[key]===undefined)delete process.env[key];else process.env[key]=originalEnv[key];
   }
+  if(originalNodeEnv===undefined)delete process.env.NODE_ENV;else process.env.NODE_ENV=originalNodeEnv;
 });

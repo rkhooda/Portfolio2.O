@@ -208,7 +208,7 @@ Every string the agent says. Keys are what `data.js` exports as `COPY`.
 ```
 rk-portfolio 2.0 · booting
 ⎿ loading tracks ........ ok  {sideA} side A · {sideB} side B
-⎿ tuning last.fm ........ ok
+⎿ tuning Spotify ........ ok
 ⎿ warming the spectrum .. ok
 > ready. type /help
 ```
@@ -233,9 +233,9 @@ Type /help to see what it can do, or click a track above.
 - footer: `Free text works too — ask about work, music, or contact.`
 
 ### Player (`/now-playing`)
-- live label: `NOW PLAYING` · not live: `LAST PLAYED · {ago}` (`3 min. ago`, `2 hr. ago`, `1 day ago`, `just now`)
-- source line: `via last.fm`
-- unreachable: `The deck is offline. Last thing I remember: Love Yourz — J. Cole.`
+- live label: `NOW PLAYING` · paused label: `PAUSED` · source line: `via Spotify`
+- no active track: `No active track · via Spotify`
+- unreachable: `The deck is offline. Spotify is unavailable right now.`
 
 ### GitHub
 - header: `{user} on GitHub` · tool line: `github: {total} contributions · {streak} day streak`
@@ -302,7 +302,7 @@ resume.pdf
 ### Credits
 ```
 Built with caffeine and questionable decisions.
-Type: JetBrains Mono. Hosting: Vercel. Now playing: last.fm.
+Type: JetBrains Mono. Hosting: Vercel. Now playing: Spotify.
 Frameworks: none. Dependencies: none. Build step: none.
 End of side B — thanks for listening.
 ```

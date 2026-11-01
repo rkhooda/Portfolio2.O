@@ -8,10 +8,10 @@ Content and project metadata live in `js/data.js` and are specified in `docs/02-
 
 | Variable | Use |
 |---|---|
-| `LASTFM_KEY`, `LASTFM_USER` | Last.fm player |
+| `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN` | Spotify current playback (backend only) |
 | `GH_TOKEN`, `GH_USER` | GitHub contribution calendar |
 | `KV_REST_API_URL`, `KV_REST_API_TOKEN` | Guestbook |
 
-The API also accepts `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`. Set these in Vercel project settings or `.env.local`. Never commit credentials.
+The guestbook API also accepts `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`. Set these in Vercel project settings or `.env.local`. Copy `.env.example` as a placeholder reference. Spotify credentials are read only by the backend and must never be added to frontend JavaScript. Never commit `.env.local` or credentials.
 
 Deployment: import the repository into Vercel, add the environment variables above, then deploy with `vercel --prod`. `resume.pdf` and `assets/og.png` are owner supplied.

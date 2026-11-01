@@ -29,7 +29,7 @@ Groups: `tracks` · `core` · `live` · `b-sides` · `hidden`.
   /clear             Wipe the transcript (Ctrl+L)
 
   live
-  /now-playing       What's on, via last.fm
+  /now-playing       What's on, via Spotify
   /github            Contributions, last 12 months
   /status            Time, streak, what's building, what's playing
   /queue             In the studio
@@ -185,25 +185,25 @@ aliases `np`, `listening`, `music`, `spotify`, `playing`
 ```
 > /now-playing
 ● The player
-  ⎿ last.fm: live
+  ⎿ Spotify: live
 
   ┌──────────┐  Love Yourz
   │          │  J. Cole · 2014 Forest Hills Drive
   │  [art]   │  ▮▮▮▮▮▮▮▮▮▮▮▮▯▯▯▯▯▯▯▯
-  │          │  NOW PLAYING · via last.fm
+  │          │  NOW PLAYING · via Spotify
   └──────────┘
 ```
 - Art: the `image` URL from the API inside a `frame`; if the API returns no
   usable image, the frame shows a vinyl glyph `◉` centred.
-- The 20-cell bar is an equaliser, not a progress bar (Last.fm reports no
-  position). While live, cells step randomly ±1 every 250ms around a mean
+- The 20-cell bar is an equaliser, not a progress bar. While live, cells
+  step randomly ±1 every 250ms around a mean
   of 12; when not live the bar is static at 8 cells. Under reduced motion,
   static in both states.
-- Not live: label `LAST PLAYED · 3 min. ago` (relative time computed
-  client-side, the response is edge-cached).
+- Paused: the current Spotify track remains visible with the `PAUSED` label.
+- No active track: `No active track · via Spotify`.
 - The turn keeps polling every 30s while on screen (see `live.js`). The
   vinyl avatar and the spectrum's live pulse follow the same flag.
-- Offline: `⎿ ✗ last.fm: offline` then the fallback line from the copy bank.
+- Offline: `⎿ ✗ Spotify: offline` then the fallback line from the copy bank.
 
 ### `/github`
 aliases `graph`, `contributions`, `commits`
@@ -232,7 +232,7 @@ aliases `uptime`, `now`
   playing   Love Yourz — J. Cole · 3 min. ago
 ```
 Time via `Intl.DateTimeFormat` with `SITE.timezone`. Two tool lines
-(github, last.fm) resolve into the `streak` and `playing` rows; on failure
+(github, Spotify) resolve into the `streak` and `playing` rows; on failure
 those rows print `—`.
 
 ### `/queue`

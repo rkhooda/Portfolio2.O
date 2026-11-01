@@ -1,7 +1,8 @@
 # 06 — Live data
 
-Four Node functions under `api/`, plain `fetch`, no `package.json`. Three
-are copied from the old repo (`/Users/rkhooda/desktop/coding/projects/portfolio/api/`).
+Four Node functions under `api/`, plain `fetch`, no `package.json`. The
+GitHub and guestbook functions are restored from the legacy repo
+(`/Users/rkhooda/Desktop/Coding/Portfolio/api/`).
 Every consumer renders a static fallback when its endpoint fails; a missing
 env var never breaks the page.
 
@@ -9,7 +10,7 @@ env var never breaks the page.
 
 | endpoint | feeds | env | cache |
 |---|---|---|---|
-| `GET /api/nowplaying` | `/now-playing`, `/status`, the vinyl, the spectrum's live pulse | `LASTFM_KEY`, `LASTFM_USER` | `s-maxage=30, stale-while-revalidate=120` |
+| `GET /api/nowplaying` | `/now-playing`, `/status`, the vinyl, the spectrum's live pulse | `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN` | `s-maxage=30, stale-while-revalidate=120` |
 | `GET /api/github` | `/github`, `/about` stats, `/status` streak | `GH_TOKEN` (classic PAT, `read:user`), optional `GH_USER` (default `rkhooda`) | `s-maxage=3600, stale-while-revalidate=86400` |
 | `GET` / `POST /api/guestbook` | `/guestbook`, `/sign` | `KV_REST_API_URL` + `KV_REST_API_TOKEN` (or `UPSTASH_REDIS_REST_*`) | GET `s-maxage=30`, POST `no-store` |
 | `GET /api/version` | `/version` | none (Vercel injects `VERCEL_GIT_COMMIT_SHA`, `VERCEL_GIT_COMMIT_REF`) | `s-maxage=3600` |
@@ -17,40 +18,30 @@ env var never breaks the page.
 Edge caching means the upstreams see a handful of requests a day regardless
 of traffic. Keep the headers exactly as in the old files.
 
-## `api/nowplaying.js` — copy, then extend
+## `api/nowplaying.js` — Spotify current playback
 
-Why Last.fm and not Spotify's API: one unauthenticated GET answers both
-"playing now" and "last played", no OAuth, no refresh token, no Premium
-requirement, and it picks up anything scrobbled, not only Spotify. This was
-decided for the old site and stands.
+The server reads `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and
+`SPOTIFY_REFRESH_TOKEN` from Vercel's environment. For direct local API use it
+also reads only those keys from the git-ignored `.env.local`; credentials are
+never returned or logged. Access tokens are refreshed server-side and the
+endpoint retries once after an expired-token response. Missing credentials,
+no active playback, paused playback, rate limits, and upstream errors all use
+safe empty or offline states. Spotify is the source of truth for `live`.
 
-Response today:
+Playing response (paused playback has `live: false`, `paused: true`):
 ```json
-{ "live": true, "artist": "J. Cole", "track": "Love Yourz", "playedAt": "2026-09-10T20:41:00.000Z" }
+{ "live": true, "paused": false, "artist": "Artist One, Artist Two",
+  "track": "Track", "album": "Album", "image": "https://i.scdn.co/image/…",
+  "url": "https://open.spotify.com/track/…" }
 ```
-(`playedAt` only when not live.)
 
-The one change: add `album` and `image`.
-```js
-album: (t.album && t.album["#text"]) || "",
-image: pickImage(t.image),   // string URL or ""
-```
-`t.image` is an array of `{ size: "small"|"medium"|"large"|"extralarge", "#text": url }`.
-Take `extralarge`, else the last entry. Treat Last.fm's placeholder as no
-image: its URL contains `2a96cbd8b46e442fc41c2b86b821562f`. Return `""` in
-that case so the client draws the `◉` frame instead.
-
-New response:
-```json
-{ "live": false, "artist": "J. Cole", "track": "Love Yourz",
-  "album": "2014 Forest Hills Drive",
-  "image": "https://lastfm.freetls.fastly.net/i/u/300x300/….jpg",
-  "playedAt": "2026-09-10T20:41:00.000Z" }
-```
+No playback returns the same shape with empty strings and both flags false.
+The existing `live` flag continues to drive vinyl rotation and spectrum pulse.
+Track URLs are rendered as external links with `rel="noopener"`.
 
 Client rules:
-- Relative time is computed client-side (`Intl.RelativeTimeFormat`, narrow
-  style: `3 min. ago`), because the response is cached for 30s.
+- Playback state is polled every 30 seconds while the command turn is
+  connected and the tab is visible.
 - Poll every 30s while a `/now-playing` turn is connected and the tab is
   visible; stop otherwise. One poller, owned by `live.js`.
 - `state.live.npLive` drives the vinyl and the spectrum pulse.
@@ -107,7 +98,7 @@ module.exports = (req, res) => {
 
 | command | when the endpoint fails |
 |---|---|
-| `/now-playing` | `⎿ ✗ last.fm: offline` then `The deck is offline. Last thing I remember: Love Yourz — J. Cole.` Vinyl stays still. |
+| `/now-playing` | `⎿ ✗ Spotify: offline` then the documented player fallback. Vinyl stays still. |
 | `/github` | `⎿ ✗ github: offline` then `GitHub isn't answering. The commits are still there: github.com/rkhooda` |
 | `/about` | the two live stats print `—`; the graph hint line still shows |
 | `/status` | the affected rows print `—` |
@@ -123,7 +114,8 @@ vercel dev              # same, and api/* actually runs; needs .env.local
 ```
 
 `.env.local` (gitignored) carries the same names as the Vercel project
-settings. Reach for `vercel dev` only when changing `api/`; front-end work
-does not need it because every live feature degrades to its fallback.
+settings. Copy `.env.example` as a placeholder reference; use
+`node scripts/spotify-auth.js` to obtain the Spotify values. Use `vercel dev`
+when changing `api/`; front-end work can use its documented fallbacks.
 
 `.gitignore`: `.vercel`, `.env*`, `.DS_Store`, `.playwright-mcp/`.
