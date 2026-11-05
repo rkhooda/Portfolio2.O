@@ -33,9 +33,7 @@ main#main{position:relative;z-index:1;width:100%;max-width:none;height:calc(100d
 .prompt-mirror{position:absolute;inset:0;pointer-events:none;z-index:1;display:flex;align-items:center;font:inherit;white-space:pre;overflow:hidden;color:transparent}
 .prompt-text{color:transparent;white-space:pre}
 .prompt-cursor{display:none;width:.62em;height:1.25em;background:var(--accent);vertical-align:middle;margin-left:1px;box-shadow:0 0 8px color-mix(in srgb,var(--accent) 40%,transparent);border-radius:1px}
-#prompt:focus + .prompt-mirror .prompt-cursor{display:inline-block;animation:terminal-blink 1s cubic-bezier(0.4,0,0.6,1) infinite}
-@keyframes terminal-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
-@media(prefers-reduced-motion:reduce){.prompt-cursor{animation:none!important;opacity:1!important}}
+#prompt:focus + .prompt-mirror .prompt-cursor{display:inline-block;opacity:1}
 .popup{left:clamp(2ch,4vw,8ch);right:clamp(2ch,4vw,8ch);transform:none;width:auto;bottom:calc(var(--lh) * 3 + max(.35rem,env(safe-area-inset-bottom)));max-height:min(17rem,calc(100dvh - var(--lh) * 4 - env(safe-area-inset-bottom)));overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;scrollbar-width:none;-ms-overflow-style:none}
 .popup::-webkit-scrollbar{display:none}
 .popup button{min-width:0}
