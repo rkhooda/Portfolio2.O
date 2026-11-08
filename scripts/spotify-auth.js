@@ -12,7 +12,7 @@ const ROOT = path.resolve(__dirname, "..");
 const ENV_PATH = path.join(ROOT, ".env.local");
 const REDIRECT_URI = "http://127.0.0.1:8888/callback";
 const PORT = 8888;
-const SCOPES = ["user-read-currently-playing", "user-read-playback-state"];
+const SCOPES = ["user-read-currently-playing", "user-read-playback-state", "user-read-recently-played"];
 
 function assertEnvIsPrivate() {
   const ignored = spawnSync("git", ["check-ignore", "-q", ".env.local"], { cwd: ROOT });

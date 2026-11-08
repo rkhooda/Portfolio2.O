@@ -39,20 +39,24 @@ test('Spotify token refresh maps track, artists, album art and URL',async()=>{
     return{ok:true,status:200,json:async()=>({is_playing:true,item:track})};
   };
   const out=response();await nowplaying({method:'GET'},out.res);
-  assert.deepEqual(out.out().json,{live:true,paused:false,artist:'Artist One, Artist Two',track:'Track',album:'Album',image:'https://spotify.test/cover.jpg',url:'https://open.spotify.com/track/abc'});
+  assert.deepEqual(out.out().json,{live:true,paused:false,lastPlayed:false,playedAt:'',artist:'Artist One, Artist Two',track:'Track',album:'Album',image:'https://spotify.test/cover.jpg',url:'https://open.spotify.com/track/abc'});
   assert.match(tokenBody,/grant_type=refresh_token/);assert.match(tokenBody,/refresh_token=test-refresh/);
   assert.equal(authorization,`Basic ${Buffer.from('test-client:test-secret').toString('base64')}`);
   assert.doesNotMatch(JSON.stringify(out.out().json),/test-secret|test-access|test-refresh/);
 });
-test('Spotify paused playback retains the track but reports live false',async()=>{
-  setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():{ok:true,status:200,json:async()=>({is_playing:false,item:track})};
+test('Spotify paused playback uses recently played and marks it as last played',async()=>{
+  setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():String(url).includes('currently-playing')?{ok:true,status:200,json:async()=>({is_playing:false,item:track})}:{ok:true,status:200,json:async()=>({items:[{track,played_at:'2026-11-08T10:00:00Z'}]})};
   const out=response();await nowplaying({method:'GET'},out.res);
-  assert.equal(out.out().json.live,false);assert.equal(out.out().json.paused,true);assert.equal(out.out().json.track,'Track');
+  assert.equal(out.out().json.live,false);assert.equal(out.out().json.lastPlayed,true);assert.equal(out.out().json.playedAt,'2026-11-08T10:00:00Z');assert.equal(out.out().json.track,'Track');
 });
-test('Spotify 204 maps to the established empty playback shape',async()=>{
-  setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():{ok:false,status:204};
+test('Spotify 204 falls back to recently played track',async()=>{
+  setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():String(url).includes('currently-playing')?{ok:false,status:204}:{ok:true,status:200,json:async()=>({items:[{track,played_at:'2026-11-08T10:00:00Z'}]})};
   const out=response();await nowplaying({method:'GET'},out.res);
-  assert.deepEqual(out.out().json,{live:false,paused:false,artist:'',track:'',album:'',image:'',url:''});
+  assert.equal(out.out().json.lastPlayed,true);assert.equal(out.out().json.track,'Track');assert.equal(out.out().json.url,track.external_urls.spotify);
+});
+test('Spotify empty listening history returns the empty state',async()=>{
+  setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():String(url).includes('currently-playing')?{ok:false,status:204}:{ok:true,status:200,json:async()=>({items:[]})};
+  const out=response();await nowplaying({method:'GET'},out.res);assert.equal(out.out().json.track,'');assert.equal(out.out().json.lastPlayed,false);
 });
 test('Spotify retries an expired access token once',async()=>{
   setSpotifyCredentials();let refreshes=0,plays=0;

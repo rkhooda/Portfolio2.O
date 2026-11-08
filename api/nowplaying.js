@@ -5,11 +5,14 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const SPOTIFY_API = "https://api.spotify.com/v1/me/player/currently-playing";
+const RECENT_API = "https://api.spotify.com/v1/me/player/recently-played?limit=1";
 const TOKEN_API = "https://accounts.spotify.com/api/token";
 const CACHE = "s-maxage=30, stale-while-revalidate=120";
 let accessToken = "";
 let accessTokenExpiresAt = 0;
 let refreshing = null;
+let cachedResult = null;
+let cacheUntil = 0;
 
 function parseEnvValue(value) {
   const trimmed = value.trim();
@@ -85,7 +88,7 @@ async function refreshAccessToken(creds, force = false) {
 }
 
 function noPlayback() {
-  return { live: false, paused: false, artist: "", track: "", album: "", image: "", url: "" };
+  return { live: false, paused: false, lastPlayed: false, playedAt: "", artist: "", track: "", album: "", image: "", url: "" };
 }
 
 function mapPlayback(data) {
@@ -95,12 +98,21 @@ function mapPlayback(data) {
   return {
     live,
     paused: data.is_playing === false,
+    lastPlayed: false,
+    playedAt: "",
     artist: Array.isArray(item.artists) ? item.artists.map((artist) => artist.name).filter(Boolean).join(", ") : "",
     track: item.name || "",
     album: item.album?.name || "",
     image: Array.isArray(item.album?.images) ? item.album.images[0]?.url || "" : "",
     url: item.external_urls?.spotify || "",
   };
+}
+
+function mapRecent(data) {
+  const entry = data?.items?.[0];
+  if (!entry?.track || entry.track.type !== "track") return noPlayback();
+  return { ...mapPlayback({ is_playing: false, item: entry.track }), paused: false,
+    lastPlayed: true, playedAt: typeof entry.played_at === "string" ? entry.played_at : "" };
 }
 
 function send(res, status, body) {
@@ -110,6 +122,7 @@ function send(res, status, body) {
 
 module.exports = async (req, res) => {
   if (req.method !== "GET") return send(res, 405, { error: "Method not allowed" });
+  if (cachedResult && Date.now() < cacheUntil) return send(res, 200, cachedResult);
   const creds = credentials();
   if (!creds.clientId || !creds.clientSecret || !creds.refreshToken) {
     return send(res, 503, { error: "offline" });
@@ -122,14 +135,53 @@ module.exports = async (req, res) => {
       token = await refreshAccessToken(creds, true);
       response = await fetch(SPOTIFY_API, { headers: { Authorization: `Bearer ${token}` } });
     }
-    if (response.status === 204) return send(res, 200, noPlayback());
     if (response.status === 429) {
       const retry = response.headers?.get?.("retry-after");
       if (retry) res.setHeader("Retry-After", retry);
+      cachedResult = null;
+      cacheUntil = Date.now() + Math.min(60_000, Math.max(15_000, Number(retry) * 1000 || 30_000));
       return send(res, 503, { error: "offline" });
     }
-    if (!response.ok) return send(res, 503, { error: "offline" });
-    return send(res, 200, mapPlayback(await response.json()));
+    if (response.status !== 204 && !response.ok) return send(res, 503, { error: "offline" });
+    let activeData = null;
+    if (response.status !== 204 && response.ok) activeData = await response.json();
+    if (response.status === 204 || !activeData?.item) {
+      let recent = await fetch(RECENT_API, { headers: { Authorization: `Bearer ${token}` } });
+      if (recent.status === 401) {
+        token = await refreshAccessToken(creds, true);
+        recent = await fetch(RECENT_API, { headers: { Authorization: `Bearer ${token}` } });
+      }
+      if (recent.status === 429) {
+        const retry = recent.headers?.get?.("retry-after");
+        if (retry) res.setHeader("Retry-After", retry);
+        cacheUntil = Date.now() + Math.min(60_000, Math.max(15_000, Number(retry) * 1000 || 30_000));
+        return send(res, 503, { error: "offline" });
+      }
+      if (!recent.ok) return send(res, 503, { error: "offline" });
+      cachedResult = mapRecent(await recent.json());
+      cacheUntil = Date.now() + 15_000;
+      return send(res, 200, cachedResult);
+    }
+    const active = mapPlayback(activeData);
+    if (active.live) cachedResult = active;
+    else {
+      let recent = await fetch(RECENT_API, { headers: { Authorization: `Bearer ${token}` } });
+      if (recent.status === 401) {
+        token = await refreshAccessToken(creds, true);
+        recent = await fetch(RECENT_API, { headers: { Authorization: `Bearer ${token}` } });
+      }
+      if (recent.status === 429) {
+        const retry = recent.headers?.get?.("retry-after");
+        if (retry) res.setHeader("Retry-After", retry);
+        cachedResult = active.track ? { ...active, paused: true } : noPlayback();
+        cacheUntil = Date.now() + 30_000;
+        return send(res, 200, cachedResult);
+      }
+      if (!recent.ok) return send(res, 503, { error: "offline" });
+      cachedResult = mapRecent(await recent.json());
+    }
+    cacheUntil = Date.now() + 15_000;
+    return send(res, 200, cachedResult);
   } catch {
     // Upstream bodies and errors are deliberately not sent to clients or logs.
     return send(res, 503, { error: "offline" });
@@ -140,4 +192,6 @@ module.exports._test = { credentials, mapPlayback, refreshAccessToken, reset() {
   accessToken = "";
   accessTokenExpiresAt = 0;
   refreshing = null;
+  cachedResult = null;
+  cacheUntil = 0;
 } };
