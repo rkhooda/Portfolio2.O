@@ -5,12 +5,12 @@ The full catalog. Every command lists its canonical name, aliases, group
 block vocabulary from `03-design-system.md`), and behaviour notes. Copy
 strings come from `02-content.md`; do not invent new ones here.
 
-Groups: `tracks` · `core` · `live` · `b-sides` · `hidden`.
+Groups: `tracks` · `core` · `live` · `lab` · `hidden`.
 
 ## `/help` — command index
 
-Shows every non-hidden command in four sections: Side A pages, session tools,
-live data, and Side B utilities. Each command is a full-width button with its
+Shows every non-hidden command in four sections: selected work, session tools,
+live data, and Lab utilities. Each command is a full-width button with its
 usage and summary. Clicking a command without arguments runs it; clicking a
 command that needs an argument fills the prompt so the visitor can complete it.
 Aliases remain supported, and typing `/` opens autocomplete.
@@ -22,7 +22,7 @@ Aliases remain supported, and typing `/` opens autocomplete.
 aliases `track 02`, `side-a` · sets active nav `Work`
 ```
 > /work
-● Side A — selected work. 09 tracks, mixed 2023–2026.
+● Selected work — 09 projects, 2023–2026.
   01  CredVault ····························  WEB3 PLATFORM      2025  04:12
   02  Multiagent Builder ···················  UNRELEASED         2026  --:--
   03  Cult-Bot ·····························  AUTOMATION TOOLS   2025  05:01
@@ -35,9 +35,9 @@ aliases `track 02`, `side-a` · sets active nav `Work`
 ```
 Rows are buttons → `/projects <slug>`. Hover/focus swaps the duration for `▶`.
 
-### `/b-sides`
-aliases `track 03`, `lab`, `side-b`, `bsides` · active nav `B-sides`
-Same layout with BSIDES; tags column shows `tags`, and the row's hover
+### `/lab`
+alias `track 03` · active nav `Lab`
+Same layout with lab projects; tags column shows `tags`, and the row's hover
 reveals `stack` joined by ` · ` in place of the leader dots.
 
 ### `/about`
@@ -93,7 +93,7 @@ The intro turn (`/track 01`) prints the intro copy under the chip `> /track 01  
 aliases `?`, `commands`, `h` · layout above.
 
 ### `/projects <project>`
-Opens a project by exact slug or title, or by a matching slug/title fragment. With no name, lists all Side A and Side B projects. After choosing `/projects` from prompt suggestions, the popup lists every project; typing filters by project name and slug. Selecting a project opens its card. Project cards link to the next project and back to their side.
+Opens a project by exact slug or title, or by a matching slug/title fragment. With no name, lists all Work and Lab projects. After choosing `/projects` from prompt suggestions, the popup lists every project; typing filters by project name and slug. Selecting a project opens its card. Project cards link to the next project and back to their side.
 
 `/play` remains a hidden reserved command with no action.
 
@@ -220,7 +220,7 @@ are `textContent`. Empty state from the copy bank.
 
 ---
 
-## b-sides
+## lab
 
 ### `/stack`
 aliases `skills`, `tools`, `tech`
@@ -277,12 +277,12 @@ Prints the banner from `02-content.md` in `--accent`, inside an
 ### `/ls`
 aliases `dir`, `tree`
 Prints the listing from the copy bank; every entry is a button:
-`work/` → `/work`, `b-sides/` → `/b-sides`, `about.md` → `/about`,
+`work/` → `/work`, `lab/` → `/lab`, `about.md` → `/about`,
 `contact.md` → `/contact`, `now-playing` → `/now-playing`, `themes/` → `/themes`,
 `resume.pdf` → `/resume`.
 
 ### `/cat <file>`
-Same mapping as `/ls` (`about.md`, `contact.md`, `work`, `b-sides`, …).
+Same mapping as `/ls` (`about.md`, `contact.md`, `work`, `lab`, …).
 Unknown → `cat: {file}: no such track`.
 
 ### `/eq <level>`
@@ -350,9 +350,9 @@ Applies only when the input does not start with `/` (and is not an armed
 
 | keywords (any) | routes to |
 |---|---|
-| work, built, portfolio, side a | `/work` |
+| work, built, portfolio | `/work` |
 | project, projects | `/projects` |
-| lab, experiment, experiments, game, games, b-side, b-sides, side b | `/b-sides` |
+| lab, experiment, experiments, game, games | `/lab` |
 | who, about, bio, yourself, background | `/about` |
 | email, mail, contact, reach, hire, hiring, talk, linkedin | `/contact` |
 | listen, listening, song, music, playing, spotify, lastfm, last.fm | `/now-playing` |

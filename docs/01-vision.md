@@ -26,8 +26,8 @@ On top of the TUI sits the album theme carried over from the first portfolio
 
 | TUI thing | Album thing | What it actually is |
 |---|---|---|
-| section | track | 01 Intro · 02 Selected work (Side A) · 03 The lab (B-sides) · 04 Liner notes (About) · 05 Outro (Contact) |
-| project | track on a side | Side A = selected work, Side B = the lab |
+| section | track | 01 Intro · 02 Selected work · 03 Lab · 04 Liner notes (About) · 05 Outro (Contact) |
+| project | track on a side | Work = selected projects, Lab = experiments and games |
 | project length | duration | the `dur` field; decorative but consistent |
 | "in the studio" | the queue | projects marked `wip` |
 | guestbook | signing the sleeve | Upstash-backed signatures |
@@ -48,7 +48,7 @@ one character):
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
-│  Rakshit Hooda                          Work · B-sides · About · Contact │  header, sticky
+│  Rakshit Hooda                          Work · Lab · About · Contact │  header, sticky
 │                                                                          │
 │      ·  +        ✱ +      ▪ ▪    ·      + ·  ✱ ▪ ▪ +   ·   ·  ·          │
 │   ·  +  ·   +  · ✱ # ✱ ·  +  ✱  ·  ·  + ✱ # ✱ ·  ·   ·  ▪ ▪              │  glyph spectrum
@@ -65,7 +65,7 @@ one character):
 │             Type /help to see what it can do, or click a track above.    │
 │                                                                          │
 │           > /work                                                        │  next turn
-│           ● Side A — selected work. 09 tracks, mixed 2023–2026.          │
+│           ● Selected work — 09 projects, 2023–2026.          │
 │             01  CredVault ···························  WEB3  2025  04:12 │
 │             …                                                            │
 ├──────────────────────────────────────────────────────────────────────────┤
@@ -86,7 +86,7 @@ accent colour (in the screenshot, "Contact").
   skips, reduced motion skips entirely:
   ```
   rk-portfolio 2.0 · booting
-  ⎿ loading tracks ........ ok  09 side A · 06 side B
+  ⎿ loading tracks ........ ok  09 work · 06 lab projects
   ⎿ tuning last.fm ........ ok
   ⎿ warming the spectrum .. ok
   > ready. type /help

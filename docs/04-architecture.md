@@ -88,8 +88,8 @@ export const COMMANDS = [
   {
     name: "work",                              // canonical; used in URLs and /help
     aliases: ["track 02", "projects", "side-a"],
-    group: "tracks",                           // tracks | core | live | b-sides | hidden
-    summary: "Selected work — side A",         // popup and /help text
+    group: "tracks",                           // tracks | core | live | lab | hidden
+    summary: "Selected work",         // popup and /help text
     args: "",                                  // e.g. "<project>", shown in /help
     track: "work",                             // which nav item goes active, if any
     run(ctx) { /* returns Node | Promise<Node> */ },
@@ -179,7 +179,7 @@ animation: keyboard-initiated actions never animate.
 - The popup source is the registry minus `hidden`. Clicking the empty prompt
   shows every available command; initial programmatic focus does not open it.
   Slash input filters commands. After `/projects `, it shows matching projects
-  from Side A and Side B. Max 8 rows visible; the list scrolls.
+  from Work and Lab. Max 8 rows visible; the list scrolls.
 - History is `state.history`. `↑`/`↓` walk it only when the popup is closed
   or the input is empty; otherwise the arrows move the popup selection.
 - `/` anywhere on the page (not inside an input) focuses the prompt.

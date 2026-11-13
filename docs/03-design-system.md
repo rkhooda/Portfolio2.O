@@ -118,7 +118,7 @@ title in `--text`. Clicking the chip re-runs the command.
 
 ### bullet — the response opener
 ```
-● Side A — selected work. 09 tracks, mixed 2023–2026.
+● Selected work — 09 projects, 2023–2026.
   continuation lines hang 2ch under the text
 ```
 `●` in `--text`. One per turn; the rest of the response is indented 2ch.
@@ -201,7 +201,7 @@ by the now-playing poller. Clicking the record runs `/now-playing`. Under
 reduced motion it never spins; the label shows a static `●` glyph instead.
 
 ### Header and nav
-Name at 500 weight left; nav right as `Work · B-sides · About · Contact`
+Name at 500 weight left; nav right as `Work · Lab · About · Contact`
 with `·` separators in `--line`. The active track (the track of the newest
 turn) is `--accent`. Nav items are `<a href="/work">` etc. so they work as
 plain links; JS intercepts the click to type the command instead.

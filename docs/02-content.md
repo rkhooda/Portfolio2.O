@@ -50,17 +50,17 @@ Stats on `/about` and `/status`:
 ```js
 export const TRACKS = [
   { n: "01", id: "intro",   title: "Intro",         meta: "" },
-  { n: "02", id: "work",    title: "Selected work", side: "A", meta: "09 tracks · mixed 2023–2026" },
-  { n: "03", id: "b-sides", title: "The lab",       side: "B", meta: "experiments, games & other questionable decisions" },
+  { n: "02", id: "work",    title: "Selected work", meta: "09 projects · 2023–2026" },
+  { n: "03", id: "lab", title: "Lab",       side: "B", meta: "experiments, games & other projects" },
   { n: "04", id: "about",   title: "Liner notes",   meta: "the artist" },
   { n: "05", id: "contact", title: "Outro",         meta: "inbox always open" },
 ];
 ```
 
-The nav shows `Work · B-sides · About · Contact` and maps to tracks 02–05.
+The nav shows `Work · Lab · About · Contact` and maps to tracks 02–05.
 The intro turn's chip reads `> /track 01  Intro`.
 
-## Side A — PROJECTS
+## Selected work
 
 Order is tracklist order. `slug` is what `/projects` matches and what the URL
 uses. `wip: true` renders an `UNRELEASED` tag, `--:--` duration, no link.
@@ -106,7 +106,7 @@ export const PROJECTS = [
 ];
 ```
 
-## Side B — BSIDES
+## Lab projects
 
 `blurb` is the long description shown on the `/projects` card; `desc` is the
 tracklist line.
@@ -207,12 +207,12 @@ Every string the agent says. Keys are what `data.js` exports as `COPY`.
 ### Boot
 ```
 rk-portfolio 2.0 · booting
-⎿ loading tracks ........ ok  {sideA} side A · {sideB} side B
+⎿ loading tracks ........ ok  {workCount} work projects · {labCount} lab projects
 ⎿ tuning Spotify ........ ok
 ⎿ warming the spectrum .. ok
 > ready. type /help
 ```
-(`{sideA}`/`{sideB}` are zero-padded counts, e.g. `09`, `06`.)
+(Counts are zero-padded, e.g. `09`, `06`.)
 
 ### Intro turn (`/track 01`)
 ```
@@ -221,8 +221,8 @@ Type /help to see what it can do, or click a track above.
 ```
 
 ### Track intros
-- `/work`: `Side A — selected work. 09 tracks, mixed 2023–2026.`
-- `/b-sides`: `Side B — the lab. Experiments, games & other questionable decisions.`
+- `/work`: `Selected work — 09 projects, 2023–2026.`
+- `/lab`: `Experiments, games & other projects.`
 - `/about`: `Liner notes.`
 - `/contact`: title `Let's talk` · sub `Got an idea, a project, or a song recommendation? All three are welcome.`
   - rows: `email  rakshit.official703@gmail.com  [Copy email]  no spam, i promise` · `github  github.com/rkhooda  where the code lives` · `linkedin  linkedin.com/in/rakshit-hooda  the formal version of me`
@@ -268,7 +268,7 @@ Awake window: 09:00–02:00 IST.
 
 ### Themes
 - header: `Themes` · each option shows its name, description, palette, and current state. Selecting a row applies that theme.
-- descriptions: `midnight  the reference mix` · `night-sage  the first album` · `amber  phosphor` · `paper  liner notes, in daylight` · `neon  side B at 2am`
+- descriptions: `midnight  the reference mix` · `night-sage  the first album` · `amber  phosphor` · `paper  liner notes, in daylight` · `neon  lab at 2am`
 
 ### Stack
 - header: `The mixer — no percentages, just how often the fader's up`
@@ -282,7 +282,7 @@ Awake window: 09:00–02:00 IST.
 ### ls / cat
 ```
 work/        09 tracks
-b-sides/     06 tracks
+lab/          06 projects
 about.md
 contact.md
 now-playing
@@ -305,7 +305,7 @@ resume.pdf
 Built with caffeine and questionable decisions.
 Type: JetBrains Mono. Hosting: Vercel. Now playing: Spotify.
 Frameworks: none. Dependencies: none. Build step: none.
-End of side B — thanks for listening.
+End of the lab — thanks for stopping by.
 ```
 
 ### Errors and free text
@@ -329,7 +329,7 @@ End of side B — thanks for listening.
 `/now-playing` · `/help` · `/work` · `/themes` · `type / for commands`
 
 ### 404.html
-`this track doesn't exist. skipped.` · link: `back to side A →` (href `/`)
+`this track doesn't exist. skipped.` · link: `back to work →` (href `/`)
 
 ### ASCII banner (`/ascii`), figlet "ANSI Shadow", 52 columns wide
 ```

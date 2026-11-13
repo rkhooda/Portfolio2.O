@@ -43,7 +43,7 @@ Build:
 - `js/state.js` with accessors and the event bus.
 - `js/render.js`: `chip`, `bullet`, `tool`, `row`, `kv`, `frame`, `link`,
   `tree` (the rest come with their commands).
-- `js/commands.js` with `/help`, `/track`, `/work`, `/b-sides`, `/about`
+- `js/commands.js` with `/help`, `/track`, `/work`, `/lab`, `/about`
   (static parts only), `/contact` (with copy email), `/projects`, `/clear`.
 - `js/shell.js`: parse, alias resolution (exported pure), submit, transcript
   append with the stdout reveal, scroll-to-top, URL push/popstate, nav
@@ -58,7 +58,7 @@ Build:
 Done when:
 - Clicking "About" types `/about` and runs it; the turn scrolls to the top
   under the header; the nav highlights About.
-- Typing `/projects cred` opens the CredVault card; `next` walks side A.
+- Typing `/projects cred` opens the CredVault card; `next` walks selected work.
 - Reload on `/projects/credvault` reproduces the turn; back button re-runs the
   previous command; `/clear` returns to `/`.
 - `grep -r innerHTML js/` returns nothing.
@@ -155,9 +155,9 @@ Done when:
 
 Commit: `feat: five themes with /themes picker`
 
-## [ ] Phase 6 — B-sides and easter eggs
+## [ ] Phase 6 — Lab and easter eggs
 
-Read: `05-commands.md` (b-sides, hidden), `02-content.md` (stack table, banner, easter-egg copy).
+Read: `05-commands.md` (lab, hidden), `02-content.md` (stack table, banner, easter-egg copy).
 
 Build:
 - `/stack`, `/shuffle`, `/timeline`, `/ascii`, `/ls`, `/cat`, `/credits`,
