@@ -177,7 +177,7 @@ Time via `Intl.DateTimeFormat` with `SITE.timezone`. Two tool lines
 those rows print `—`.
 
 ### `/queue`
-aliases `studio`, `wip`, `next`, `building`
+aliases `wip`, `next`, `building`
 ```
 > /queue
 ● Up next — in the studio
@@ -186,6 +186,9 @@ aliases `studio`, `wip`, `next`, `building`
   03  Payline Slot Engine ················  GAMES              2026
 ```
 Rows → `/projects <slug>`.
+
+### `/studio`
+Shows only projects marked `wip: true`, under the `In development` header. Each row opens its `/projects <slug>` card.
 
 ### `/sign`
 aliases `guestbook sign`, `signature`
@@ -356,7 +359,8 @@ Applies only when the input does not start with `/` (and is not an armed
 | github, commit, commits, streak, contributions | `/github` |
 | theme, themes, dark, light, colour, color, colours, colors | `/themes` |
 | resume, cv | `/resume` |
-| building, working on, next, studio, wip, queue | `/queue` |
+| studio, wip, in development, developing | `/studio` |
+| building, working on, next, queue | `/queue` |
 | stack, skills, tech, languages, tools | `/stack` |
 | help, commands, what can you do | `/help` |
 | time, awake, status | `/status` |

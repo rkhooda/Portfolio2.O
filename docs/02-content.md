@@ -253,6 +253,9 @@ Awake window: 09:00–02:00 IST.
 ### Queue
 - header: `Up next — in the studio` · empty: `Nothing queued. Suspicious.`
 
+### Studio
+- header: `In development`
+
 ### Guestbook
 - header: `Signatures · {count}` · tool line: `upstash: {count} total, showing {shown}`
 - empty: `Nobody has signed yet. /sign to be first.`
