@@ -167,11 +167,11 @@ aliases `uptime`, `now`
   time      02:14 IST · probably asleep
   streak    12 days
   building  Multiagent Builder
-  playing   Love Yourz — J. Cole · 3 min. ago
+  playing   Last played: Love Yourz — J. Cole · 3m ago
 ```
-Time via `Intl.DateTimeFormat` with `SITE.timezone`. Two tool lines
-(github, Spotify) resolve into the `streak` and `playing` rows; on failure
-those rows print `—`.
+Time via `Intl.DateTimeFormat` with `SITE.timezone`. GitHub and Spotify data
+fills the `streak` and `playing` rows without extra status lines. When no track
+is playing, the row shows the most recently played track and its relative time.
 
 ### `/queue`
 aliases `wip`, `next`, `building`
