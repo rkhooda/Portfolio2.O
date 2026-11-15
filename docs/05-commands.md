@@ -152,15 +152,12 @@ aliases `graph`, `contributions`, `commits`
 > /github
 ● rkhooda on GitHub
   ⎿ github: 1,284 contributions · 12 day streak
-      Oct   Nov   Dec   Jan   Feb   Mar   Apr   May   Jun   Jul   Aug   Sep
-  Mon ·▪▪·▪▪▪▪·▪▪▪▪▪▪·▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪
-      ·▪·▪·▪▪·▪▪▪·▪▪·▪▪▪▪▪·▪▪▪▪▪▪·▪▪▪▪▪▪▪▪▪▪·▪▪▪▪▪▪▪▪▪▪▪▪▪▪
-  Wed ▪▪▪▪▪▪·▪▪▪▪▪▪▪▪▪▪·▪▪▪▪▪▪▪▪▪▪▪▪▪▪·▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪
-      … 7 rows × 52 columns
+      [52 × 7 solid contribution cells with a slow accent sweep]
   ↗ github.com/rkhooda
 ```
-Levels 0–4 from `count / max`, as in the old `live.js`. Each cell has a
-`title` of `{date}: {n} contributions`. Mobile renders the last 26 weeks.
+Levels 0–4 use theme-specific high-contrast colors. Cell labels retain the
+exact date and contribution count; weekday and month labels are omitted to
+keep the graph aligned. Mobile renders the last 26 weeks.
 
 ### `/status`
 aliases `uptime`, `now`

@@ -165,9 +165,12 @@ stays on the grid at any width. Used for the `/projects` cover and the player.
 Filled `--accent`, empty `--line`.
 
 ### graph — 52 × 7 contribution cells
-One glyph per day: `·` for zero in `--line`; `▪` for levels 1–4 coloured
-`--rain-1`, `--rain-2`, `--rain-3`, `--rain-peak`. Month initials above in
-`--muted`. Mobile shows the last 26 weeks.
+Zero-contribution cells use a visible outline; solid cells use theme-specific
+`--contrib-1` through `--contrib-4` colors for
+clear contrast. No weekday or month labels; each cell keeps its date and count
+as its accessible label. A soft accent sweep moves back and forth across the
+graph over 20 seconds. It is disabled for reduced motion. Mobile shows the
+last 26 weeks.
 
 ### swatch
 ```
