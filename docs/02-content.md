@@ -237,6 +237,7 @@ Type /help to see what it can do, or click a track above.
 - state labels: `🎧 Now listening` · `🎧 Last in the headphones` · `🎧 Paused on`
 - last played note: `I last played this {relative time}.`
 - controls: `▶  Listen here` (plays the available preview inline) · `Open in Spotify ↗` · `Find me on Spotify ↗`
+- Apple fallback preview: `Listen on Apple Music ↗` · `Preview provided courtesy of iTunes.`
 - missing preview: `No preview available for this track.`
 - no active track: `No listening history · via Spotify`
 - cached fallback: `Spotify is offline. Showing the last track I heard.`

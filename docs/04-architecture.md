@@ -1,7 +1,7 @@
 # 04 — Architecture
 
 Vanilla HTML/CSS/JS, native ES modules, no build step, no dependencies.
-Static files plus four Node functions under `api/`, hosted on Vercel.
+Static files plus five Node functions under `api/`, hosted on Vercel.
 
 ## File tree
 
@@ -24,7 +24,8 @@ js/intent.js        free-text keyword router + "did you mean"
 js/rain.js          the glyph spectrum canvas
 js/live.js          fetch helpers with tool-line spinner; now-playing poller
 js/boot.js          the boot sequence; kicks off shell + rain when done
-api/nowplaying.js   from the old repo, plus album + image (06-live-data)
+api/nowplaying.js   Spotify currently/recently played data
+api/preview.js      optional Apple Music preview fallback (06-live-data)
 api/github.js       from the old repo, unchanged
 api/guestbook.js    from the old repo, unchanged
 api/version.js      new: exposes VERCEL_GIT_COMMIT_SHA / REF for /version

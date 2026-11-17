@@ -11,6 +11,7 @@ env var never breaks the page.
 | endpoint | feeds | env | cache |
 |---|---|---|---|
 | `GET /api/nowplaying` | `/now-playing`, `/status`, the vinyl, the spectrum's live pulse | `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN` | `s-maxage=30, stale-while-revalidate=120` |
+| `GET /api/preview` | `/now-playing` fallback preview search | none | `no-store` |
 | `GET /api/github` | `/github`, `/about` stats, `/status` streak | `GH_TOKEN` (classic PAT, `read:user`), optional `GH_USER` (default `rkhooda`) | `s-maxage=3600, stale-while-revalidate=86400` |
 | `GET` / `POST /api/guestbook` | `/guestbook`, `/sign` | `KV_REST_API_URL` + `KV_REST_API_TOKEN` (or `UPSTASH_REDIS_REST_*`) | GET `s-maxage=30`, POST `no-store` |
 | `GET /api/version` | `/version` | none (Vercel injects `VERCEL_GIT_COMMIT_SHA`, `VERCEL_GIT_COMMIT_REF`) | `s-maxage=3600` |
@@ -30,6 +31,8 @@ endpoint retries once after an expired-token response. The OAuth authorization r
 browser also keeps the last successful track for offline visits. If no track is
 available in either cache, rerun `node scripts/spotify-auth.js` and update the
 refresh token in Vercel. Spotify is the source of truth for `live`.
+
+If Spotify provides no preview URL, `/now-playing` looks for an exact track and artist match through `/api/preview` and streams Apple’s short preview through the same button. Apple Music results include the official store badge and iTunes attribution.
 
 Playing response (paused playback has `live: false`, `paused: true`):
 ```json

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import nowplaying from '../api/nowplaying.js';
+import preview from '../api/preview.js';
 import github from '../api/github.js';
 import version from '../api/version.js';
 const originalNodeEnv=process.env.NODE_ENV;
@@ -39,10 +40,15 @@ test('Spotify token refresh maps track, artists, album art and URL',async()=>{
     return{ok:true,status:200,json:async()=>({is_playing:true,item:track})};
   };
   const out=response();await nowplaying({method:'GET'},out.res);
-  assert.deepEqual(out.out().json,{live:true,paused:false,lastPlayed:false,playedAt:'',artist:'Artist One, Artist Two',track:'Track',album:'Album',image:'https://spotify.test/cover.jpg',url:'https://open.spotify.com/track/abc',previewUrl:'https://p.scdn.co/mp3-preview/sample.mp3'});
+  assert.deepEqual(out.out().json,{live:true,paused:false,lastPlayed:false,playedAt:'',artist:'Artist One, Artist Two',track:'Track',album:'Album',image:'https://spotify.test/cover.jpg',url:'https://open.spotify.com/track/abc',previewUrl:'https://p.scdn.co/mp3-preview/sample.mp3',previewProvider:'Spotify',previewStoreUrl:'https://open.spotify.com/track/abc'});
   assert.match(tokenBody,/grant_type=refresh_token/);assert.match(tokenBody,/refresh_token=test-refresh/);
   assert.equal(authorization,`Basic ${Buffer.from('test-client:test-secret').toString('base64')}`);
   assert.doesNotMatch(JSON.stringify(out.out().json),/test-secret|test-access|test-refresh/);
+});
+test('Apple Music preview finds an exact track and artist',async()=>{
+  const originalFetch=globalThis.fetch;
+  globalThis.fetch=async url=>{assert.match(String(url),/^https:\/\/itunes\.apple\.com\/search\?/);return{ok:true,json:async()=>({results:[{trackName:'Different Song',artistName:'Artist One',collectionName:'Album',previewUrl:'https://audio-ssl.itunes.apple.com/bad.m4a',trackViewUrl:'https://music.apple.com/in/song/different/1'},{trackName:'Track',artistName:'Artist One',collectionName:'Album',previewUrl:'https://audio-ssl.itunes.apple.com/good.m4a',trackViewUrl:'https://music.apple.com/in/song/track/2'}]})}};
+  try{const out=response();await preview({method:'GET',url:'/api/preview?track=Track&artist=Artist%20One&album=Album'},out.res);assert.equal(out.out().json.previewUrl,'https://audio-ssl.itunes.apple.com/good.m4a');assert.equal(out.out().json.previewProvider,'Apple Music');assert.equal(out.out().json.previewStoreUrl,'https://music.apple.com/in/song/track/2')}finally{globalThis.fetch=originalFetch}
 });
 test('Spotify paused playback uses recently played and marks it as last played',async()=>{
   setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():String(url).includes('currently-playing')?{ok:true,status:200,json:async()=>({is_playing:false,item:track})}:{ok:true,status:200,json:async()=>({items:[{track,played_at:'2026-11-08T10:00:00Z'}]})};
