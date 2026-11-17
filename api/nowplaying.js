@@ -88,7 +88,7 @@ async function refreshAccessToken(creds, force = false) {
 }
 
 function noPlayback() {
-  return { live: false, paused: false, lastPlayed: false, playedAt: "", artist: "", track: "", album: "", image: "", url: "" };
+  return { live: false, paused: false, lastPlayed: false, playedAt: "", artist: "", track: "", album: "", image: "", url: "", previewUrl: "" };
 }
 
 function mapPlayback(data) {
@@ -105,6 +105,7 @@ function mapPlayback(data) {
     album: item.album?.name || "",
     image: Array.isArray(item.album?.images) ? item.album.images[0]?.url || "" : "",
     url: item.external_urls?.spotify || "",
+    previewUrl: typeof item.preview_url === "string" && item.preview_url.startsWith("https://") ? item.preview_url : "",
   };
 }
 

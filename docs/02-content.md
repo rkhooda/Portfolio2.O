@@ -234,9 +234,10 @@ Type /help to see what it can do, or click a track above.
 
 ### Player (`/now-playing`)
 - intro: `A little soundtrack from my side.`
-- state labels: `On right now` · `Last in the headphones` · `Paused on`
+- state labels: `🎧 Now listening` · `🎧 Last in the headphones` · `🎧 Paused on`
 - last played note: `I last played this {relative time}.`
-- controls: `▶  Listen here` · `Open in Spotify ↗` · `Find me on Spotify ↗`
+- controls: `▶  Listen here` (plays the available preview inline) · `Open in Spotify ↗` · `Find me on Spotify ↗`
+- missing preview: `No preview available for this track.`
 - no active track: `No listening history · via Spotify`
 - unreachable: `The deck is offline. Spotify is unavailable right now.`
 

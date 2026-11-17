@@ -125,10 +125,7 @@ sets the URL to `/`, keeps history and theme.
 aliases `np`, `listening`, `music`, `spotify`, `playing`
 ```
 > /now-playing
-● The player
-  ⎿ Spotify: live
-
-  A little soundtrack from my side.
+A little soundtrack from my side.
   [album art]  On right now
                Love Yourz
                J. Cole · 2014 Forest Hills Drive
@@ -139,9 +136,9 @@ aliases `np`, `listening`, `music`, `spotify`, `playing`
   usable image, the frame shows a vinyl glyph `◉` centred.
 - The compact equaliser is decorative, not a progress bar. It moves only while
   music is live and becomes a still line under reduced motion or paused playback.
-- `Listen here` opens Spotify’s embedded player for the current track. The
-  Spotify links remain available for listening there and visiting the profile.
-- Paused: the current Spotify track remains visible with the `PAUSED` label.
+- `Listen here` plays Spotify’s available preview inline. Preview clips are
+  optional in Spotify’s API; when absent, explain that and keep the Spotify link.
+- Paused: the current track remains visible with the `🎧 Paused on` label.
 - No active track: `No listening history · via Spotify`.
 - The turn keeps polling every 30s while on screen (see `live.js`). The
   vinyl avatar and the spectrum's live pulse follow the same flag.

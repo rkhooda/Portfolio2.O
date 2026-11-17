@@ -23,7 +23,7 @@ function setSpotifyCredentials(){
 function tokenResponse(access='test-access'){
   return{ok:true,status:200,json:async()=>({access_token:access,expires_in:3600,token_type:'Bearer'})};
 }
-const track={type:'track',name:'Track',artists:[{name:'Artist One'},{name:'Artist Two'}],album:{name:'Album',images:[{url:'https://spotify.test/cover.jpg'}]},external_urls:{spotify:'https://open.spotify.com/track/abc'}};
+const track={type:'track',name:'Track',artists:[{name:'Artist One'},{name:'Artist Two'}],album:{name:'Album',images:[{url:'https://spotify.test/cover.jpg'}]},external_urls:{spotify:'https://open.spotify.com/track/abc'},preview_url:'https://p.scdn.co/mp3-preview/sample.mp3'};
 
 test('Spotify nowplaying returns offline when credentials are missing',async()=>{
   for(const key of ['SPOTIFY_CLIENT_ID','SPOTIFY_CLIENT_SECRET','SPOTIFY_REFRESH_TOKEN'])delete process.env[key];
@@ -39,7 +39,7 @@ test('Spotify token refresh maps track, artists, album art and URL',async()=>{
     return{ok:true,status:200,json:async()=>({is_playing:true,item:track})};
   };
   const out=response();await nowplaying({method:'GET'},out.res);
-  assert.deepEqual(out.out().json,{live:true,paused:false,lastPlayed:false,playedAt:'',artist:'Artist One, Artist Two',track:'Track',album:'Album',image:'https://spotify.test/cover.jpg',url:'https://open.spotify.com/track/abc'});
+  assert.deepEqual(out.out().json,{live:true,paused:false,lastPlayed:false,playedAt:'',artist:'Artist One, Artist Two',track:'Track',album:'Album',image:'https://spotify.test/cover.jpg',url:'https://open.spotify.com/track/abc',previewUrl:'https://p.scdn.co/mp3-preview/sample.mp3'});
   assert.match(tokenBody,/grant_type=refresh_token/);assert.match(tokenBody,/refresh_token=test-refresh/);
   assert.equal(authorization,`Basic ${Buffer.from('test-client:test-secret').toString('base64')}`);
   assert.doesNotMatch(JSON.stringify(out.out().json),/test-secret|test-access|test-refresh/);
