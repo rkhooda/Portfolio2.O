@@ -128,20 +128,21 @@ aliases `np`, `listening`, `music`, `spotify`, `playing`
 ● The player
   ⎿ Spotify: live
 
-  ┌──────────┐  Love Yourz
-  │          │  J. Cole · 2014 Forest Hills Drive
-  │  [art]   │  ▮▮▮▮▮▮▮▮▮▮▮▮▯▯▯▯▯▯▯▯
-  │          │  NOW PLAYING · via Spotify
-  └──────────┘
+  A little soundtrack from my side.
+  [album art]  On right now
+               Love Yourz
+               J. Cole · 2014 Forest Hills Drive
+               [minimal animated equaliser]
+               [▶ Listen here] [Open in Spotify] [Find me on Spotify]
 ```
 - Art: the `image` URL from the API inside a `frame`; if the API returns no
   usable image, the frame shows a vinyl glyph `◉` centred.
-- The 20-cell bar is an equaliser, not a progress bar. While live, cells
-  step randomly ±1 every 250ms around a mean
-  of 12; when not live the bar is static at 8 cells. Under reduced motion,
-  static in both states.
+- The compact equaliser is decorative, not a progress bar. It moves only while
+  music is live and becomes a still line under reduced motion or paused playback.
+- `Listen here` opens Spotify’s embedded player for the current track. The
+  Spotify links remain available for listening there and visiting the profile.
 - Paused: the current Spotify track remains visible with the `PAUSED` label.
-- No active track: `No active track · via Spotify`.
+- No active track: `No listening history · via Spotify`.
 - The turn keeps polling every 30s while on screen (see `live.js`). The
   vinyl avatar and the spectrum's live pulse follow the same flag.
 - Offline: `⎿ ✗ Spotify: offline` then the fallback line from the copy bank.

@@ -233,8 +233,11 @@ Type /help to see what it can do, or click a track above.
 - footer: `Free text works too — ask about work, music, or contact.`
 
 ### Player (`/now-playing`)
-- live label: `NOW PLAYING` · paused label: `PAUSED` · source line: `via Spotify`
-- no active track: `No active track · via Spotify`
+- intro: `A little soundtrack from my side.`
+- state labels: `On right now` · `Last in the headphones` · `Paused on`
+- last played note: `I last played this {relative time}.`
+- controls: `▶  Listen here` · `Open in Spotify ↗` · `Find me on Spotify ↗`
+- no active track: `No listening history · via Spotify`
 - unreachable: `The deck is offline. Spotify is unavailable right now.`
 
 ### GitHub
