@@ -116,6 +116,13 @@ function mapRecent(data) {
     lastPlayed: true, playedAt: typeof entry.played_at === "string" ? entry.played_at : "" };
 }
 
+function lastKnownTrack(fallback = null) {
+  const known = cachedResult?.track ? cachedResult : fallback?.track ? fallback : null;
+  if (!known) return null;
+  return { ...known, live: false, paused: false, lastPlayed: true,
+    playedAt: known.playedAt || new Date().toISOString() };
+}
+
 function send(res, status, body) {
   res.setHeader("Cache-Control", CACHE);
   return res.status(status).json(body);
@@ -158,6 +165,13 @@ module.exports = async (req, res) => {
         cacheUntil = Date.now() + Math.min(60_000, Math.max(15_000, Number(retry) * 1000 || 30_000));
         return send(res, 503, { error: "offline" });
       }
+      if (recent.status === 403) {
+        cachedResult = lastKnownTrack();
+        if (cachedResult) {
+          cacheUntil = Date.now() + 15_000;
+          return send(res, 200, cachedResult);
+        }
+      }
       if (!recent.ok) return send(res, 503, { error: "offline" });
       cachedResult = mapRecent(await recent.json());
       cacheUntil = Date.now() + 15_000;
@@ -177,6 +191,13 @@ module.exports = async (req, res) => {
         cachedResult = active.track ? { ...active, paused: true } : noPlayback();
         cacheUntil = Date.now() + 30_000;
         return send(res, 200, cachedResult);
+      }
+      if (recent.status === 403) {
+        cachedResult = lastKnownTrack(active);
+        if (cachedResult) {
+          cacheUntil = Date.now() + 15_000;
+          return send(res, 200, cachedResult);
+        }
       }
       if (!recent.ok) return send(res, 503, { error: "offline" });
       cachedResult = mapRecent(await recent.json());

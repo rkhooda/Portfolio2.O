@@ -24,9 +24,12 @@ The server reads `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and
 `SPOTIFY_REFRESH_TOKEN` from Vercel's environment. For direct local API use it
 also reads only those keys from the git-ignored `.env.local`; credentials are
 never returned or logged. Access tokens are refreshed server-side and the
-endpoint retries once after an expired-token response. Missing credentials,
-no active playback, paused playback, rate limits, and upstream errors all use
-safe empty or offline states. Spotify is the source of truth for `live`.
+endpoint retries once after an expired-token response. The OAuth authorization requires `user-read-currently-playing`,
+`user-read-playback-state`, and `user-read-recently-played`. If Spotify returns
+403 for recently played, the API falls back to the current or cached track; the
+browser also keeps the last successful track for offline visits. If no track is
+available in either cache, rerun `node scripts/spotify-auth.js` and update the
+refresh token in Vercel. Spotify is the source of truth for `live`.
 
 Playing response (paused playback has `live: false`, `paused: true`):
 ```json

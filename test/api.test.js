@@ -49,6 +49,11 @@ test('Spotify paused playback uses recently played and marks it as last played',
   const out=response();await nowplaying({method:'GET'},out.res);
   assert.equal(out.out().json.live,false);assert.equal(out.out().json.lastPlayed,true);assert.equal(out.out().json.playedAt,'2026-11-08T10:00:00Z');assert.equal(out.out().json.track,'Track');
 });
+test('Spotify uses the paused track if recently played is forbidden',async()=>{
+  setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():String(url).includes('currently-playing')?{ok:true,status:200,json:async()=>({is_playing:false,item:track})}:{ok:false,status:403};
+  const out=response();await nowplaying({method:'GET'},out.res);
+  assert.equal(out.out().status,200);assert.equal(out.out().json.track,'Track');assert.equal(out.out().json.lastPlayed,true);assert.equal(out.out().json.live,false);
+});
 test('Spotify 204 falls back to recently played track',async()=>{
   setSpotifyCredentials();globalThis.fetch=async url=>String(url).includes('/api/token')?tokenResponse():String(url).includes('currently-playing')?{ok:false,status:204}:{ok:true,status:200,json:async()=>({items:[{track,played_at:'2026-11-08T10:00:00Z'}]})};
   const out=response();await nowplaying({method:'GET'},out.res);

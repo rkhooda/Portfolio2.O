@@ -239,6 +239,7 @@ Type /help to see what it can do, or click a track above.
 - controls: `▶  Listen here` (plays the available preview inline) · `Open in Spotify ↗` · `Find me on Spotify ↗`
 - missing preview: `No preview available for this track.`
 - no active track: `No listening history · via Spotify`
+- cached fallback: `Spotify is offline. Showing the last track I heard.`
 - unreachable: `The deck is offline. Spotify is unavailable right now.`
 
 ### GitHub
