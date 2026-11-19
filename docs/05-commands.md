@@ -58,7 +58,7 @@ aliases `track 04`, `liner-notes`, `whoami`, `bio` · active nav `About`
 
   WEB · AI · APPS · GAMES · WEB3 · TOOLS · AUTOMATION · LAB
 
-  /github for the graph · /stack for the mixer · /queue for what's next
+  /github for the graph · /stack for the mixer · /studio for what's next
 ```
 The two live numbers arrive through the tool line; the two derived ones
 print immediately. Numbers under 100 are zero-padded to two digits, larger
@@ -171,19 +171,20 @@ Time via `Intl.DateTimeFormat` with `SITE.timezone`. GitHub and Spotify data
 fills the `streak` and `playing` rows without extra status lines. When no track
 is playing, the row shows the most recently played track and its relative time.
 
-### `/queue`
-aliases `wip`, `next`, `building`
+### `/studio`
+aliases `queue`, `wip`, `next`, `building`
 ```
-> /queue
-● Up next — in the studio
+> /studio
+● In development
   01  Multiagent Builder ·················  AI SYSTEM          2026
   02  Developer Brain ····················  TOOLS LAB          2026
   03  Payline Slot Engine ················  GAMES              2026
 ```
-Rows → `/projects <slug>`.
+Shows only projects marked `wip: true`. Rows → `/projects <slug>`.
 
-### `/studio`
-Shows only projects marked `wip: true`, under the `In development` header. Each row opens its `/projects <slug>` card.
+### `/links`
+aliases `link`, `socials`, `urls`, `connect`
+Signal outposts: direct cards for `rakshit.is-a.dev`, GitHub, LinkedIn, Résumé (PDF), direct email, and Spotify profile. Each card contains destination badges, external link (`rel="noopener"`), and one-click copy with feedback.
 
 ### `/sign`
 aliases `guestbook sign`, `signature`
@@ -221,17 +222,16 @@ are `textContent`. Empty state from the copy bank.
 aliases `skills`, `tools`, `tech`
 ```
 > /stack
-● The mixer — no percentages, just how often the fader's up
-  FRONTEND      JavaScript / TypeScript     ▮▮▮  daily
-                HTML / CSS                  ▮▮▮  daily
-                React / Next.js             ▮▮▯  often
-                React Native / Expo         ▮▮▯  often
-                Tailwind                    ▮▮▯  often
-                Three.js / GSAP             ▮▯▯  dabbled
-  BACKEND       Node                        ▮▮▮  daily
-  …
+● The mixer — console signal chain & tech stack
+  Analog-style channel strips ordered by fader level (daily drivers at top).
+  [23 CHANNELS] [6 DAILY (+6dB)] [10 ROTATION (0dB)] [7 LAB (-6dB)]
+  Filter buttons: ALL, DAILY, ROTATION, LAB, AI, WEB3, FRONTEND, BACKEND, INFRA, TOOLS
+
+  MASTER BUS · DAILY DRIVERS (+6 dB)
+  HEAVY ROTATION · CORE PRODUCTION (0 dB)
+  LAB RACK · EXPLORING & AUX (-6 dB)
 ```
-Data from `STACK` in `data.js`. Three cells: daily 3, often 2, dabbled 1.
+Console channel strips with visual faders, dB meters, category channel tags, and clickable project proof-of-work chips linking to `/projects <slug>`. Interactive filter bar filters channels in real-time.
 
 ### `/shuffle`
 aliases `random`, `surprise`
@@ -354,8 +354,8 @@ Applies only when the input does not start with `/` (and is not an armed
 | github, commit, commits, streak, contributions | `/github` |
 | theme, themes, dark, light, colour, color, colours, colors | `/themes` |
 | resume, cv | `/resume` |
-| studio, wip, in development, developing | `/studio` |
-| building, working on, next, queue | `/queue` |
+| studio, wip, in development, developing, building, working on, next, queue | `/studio` |
+| links, link, socials, social, urls, profiles, outposts | `/links` |
 | stack, skills, tech, languages, tools | `/stack` |
 | help, commands, what can you do | `/help` |
 | time, awake, status | `/status` |
@@ -363,7 +363,7 @@ Applies only when the input does not start with `/` (and is not an armed
 | hi, hello, hey, yo, sup, hola, namaste | greeting reply (no command) |
 | thanks, thank you, ty, cheers | thanks reply (no command) |
 
-A routed turn echoes the raw text in the chip and prints `⎿ → /queue`
+A routed turn echoes the raw text in the chip and prints `⎿ → /studio`
 above the routed output, so the interpretation is visible. No match → the
 "I only speak slash" line.
 
