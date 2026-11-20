@@ -222,16 +222,16 @@ are `textContent`. Empty state from the copy bank.
 aliases `skills`, `tools`, `tech`
 ```
 > /stack
-● The mixer — console signal chain & tech stack
-  Analog-style channel strips ordered by fader level (daily drivers at top).
-  [23 CHANNELS] [6 DAILY (+6dB)] [10 ROTATION (0dB)] [7 LAB (-6dB)]
-  Filter buttons: ALL, DAILY, ROTATION, LAB, AI, WEB3, FRONTEND, BACKEND, INFRA, TOOLS
+● Tech stack — core tools & workflows
+  Ordered by usage level (daily drivers at top).
+  [23 TECHNOLOGIES] [6 DAILY] [10 FREQUENT] [7 EXPLORING]
+  Filter buttons: ALL, DAILY, FREQUENT, EXPLORING, AI, WEB3, FRONTEND, BACKEND, INFRA, TOOLS
 
-  MASTER BUS · DAILY DRIVERS (+6 dB)
-  HEAVY ROTATION · CORE PRODUCTION (0 dB)
-  LAB RACK · EXPLORING & AUX (-6 dB)
+  DAILY DRIVERS & CORE WORKFLOWS
+  FREQUENT & ACTIVE ROTATION
+  EXPLORING & SPECIALIZED
 ```
-Console channel strips with visual faders, dB meters, category channel tags, and clickable project proof-of-work chips linking to `/projects <slug>`. Interactive filter bar filters channels in real-time.
+Clean, minimal cards with domain tags (`FRONTEND`, `BACKEND`, `AI`, `WEB3`, etc.), proficiency tiers (`DAILY`, `FREQUENT`, `EXPLORING`), and clickable `used in:` project chips linking directly to `/projects <slug>`. Interactive filter bar filters channels in real-time.
 
 ### `/shuffle`
 aliases `random`, `surprise`

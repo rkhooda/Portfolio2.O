@@ -71,21 +71,21 @@ const STACK_PROJECTS={
 function renderStackMixer(ctx){
  const root=R.el('section',undefined,'stack-mixer');
  const head=R.el('div',undefined,'stack-header');
- head.append(R.bullet('The mixer — console signal chain & tech stack'));
- head.append(R.el('p','Analog-style channel strips ordered by fader level (daily drivers at top). Click any project chip to inspect.','muted'));
+ head.append(R.bullet('Tech stack — core tools & workflows'));
+ head.append(R.el('p','Ordered by usage level (daily drivers at top). Click any project chip to inspect.','muted'));
  const stats=R.el('div',undefined,'stack-stats');
- const s1=R.el('span',undefined,'stack-stat-pill'),b1=R.el('b','23');s1.append(b1,document.createTextNode(' CHANNELS'));
- const s2=R.el('span',undefined,'stack-stat-pill'),b2=R.el('b','6');s2.append(b2,document.createTextNode(' DAILY (+6dB)'));
- const s3=R.el('span',undefined,'stack-stat-pill'),b3=R.el('b','10');s3.append(b3,document.createTextNode(' ROTATION (0dB)'));
- const s4=R.el('span',undefined,'stack-stat-pill'),b4=R.el('b','7');s4.append(b4,document.createTextNode(' LAB (-6dB)'));
+ const s1=R.el('span',undefined,'stack-stat-pill'),b1=R.el('b','23');s1.append(b1,document.createTextNode(' TECHNOLOGIES'));
+ const s2=R.el('span',undefined,'stack-stat-pill'),b2=R.el('b','6');s2.append(b2,document.createTextNode(' DAILY'));
+ const s3=R.el('span',undefined,'stack-stat-pill'),b3=R.el('b','10');s3.append(b3,document.createTextNode(' FREQUENT'));
+ const s4=R.el('span',undefined,'stack-stat-pill'),b4=R.el('b','7');s4.append(b4,document.createTextNode(' EXPLORING'));
  stats.append(s1,s2,s3,s4);
  head.append(stats);
  const filtersWrap=R.el('div',undefined,'stack-filters');
  const filterDefs=[
   {id:'all',label:'ALL (23)'},
   {id:'daily',label:'DAILY (6)'},
-  {id:'often',label:'ROTATION (10)'},
-  {id:'dabbled',label:'LAB (7)'},
+  {id:'often',label:'FREQUENT (10)'},
+  {id:'dabbled',label:'EXPLORING (7)'},
   {id:'AI',label:'AI'},
   {id:'WEB3',label:'WEB3'},
   {id:'FRONTEND',label:'FRONTEND'},
@@ -125,9 +125,9 @@ function renderStackMixer(ctx){
  head.append(filtersWrap);
  root.append(head);
  const tiers=[
-  {id:'daily',gain:'+6 dB',pct:'100%',name:'MASTER BUS · DAILY DRIVERS',desc:'Primary production instruments & daily workflows — highest gain & mastery'},
-  {id:'often',gain:'0 dB',pct:'70%',name:'HEAVY ROTATION · CORE PRODUCTION',desc:'High-frequency production tools, frameworks & backends'},
-  {id:'dabbled',gain:'-6 dB',pct:'35%',name:'LAB RACK · EXPLORING & AUX',desc:'Specialized desktop engines, graphics & experimental tools'}
+  {id:'daily',badge:'DAILY',name:'DAILY DRIVERS & CORE WORKFLOWS',desc:'Primary instruments used every day in production — highest proficiency'},
+  {id:'often',badge:'FREQUENT',name:'FREQUENT & ACTIVE ROTATION',desc:'High-frequency frameworks, databases, and development tooling'},
+  {id:'dabbled',badge:'EXPLORING',name:'EXPLORING & SPECIALIZED',desc:'Specialized desktop frameworks, game engines, and lab experiments'}
  ];
  tiers.forEach(tier=>{
   const items=STACK.filter(s=>s.level===tier.id);
@@ -135,7 +135,7 @@ function renderStackMixer(ctx){
   const tierEl=R.el('div',undefined,`stack-tier tier-${tier.id}`);
   const thead=R.el('div',undefined,'stack-tier-head');
   const title=R.el('h4',undefined,'stack-tier-title');
-  title.append(R.el('span',tier.name),R.el('span',tier.gain,'stack-tier-gain'));
+  title.append(R.el('span',tier.name),R.el('span',tier.badge,'stack-tier-gain'));
   const tdesc=R.el('p',tier.desc,'stack-tier-desc');
   thead.append(title,tdesc);
   tierEl.append(thead);
@@ -146,21 +146,13 @@ function renderStackMixer(ctx){
    card.dataset.level=item.level;
    card.dataset.channel=item.channel;
    const top=R.el('div',undefined,'stack-card-top');
-   top.append(R.el('span',item.channel,'stack-card-channel'),R.el('span',`${tier.gain} · ${item.level.toUpperCase()}`,'stack-card-level'));
+   top.append(R.el('span',item.channel,'stack-card-channel'),R.el('span',item.level.toUpperCase(),'stack-card-level'));
    const name=R.el('h5',item.instrument,'stack-card-name');
-   const fader=R.el('div',undefined,'stack-fader');
-   const bar=R.el('div',undefined,'stack-fader-bar');
-   bar.style.width=tier.pct;
-   const thumb=R.el('div',undefined,'stack-fader-thumb');
-   thumb.style.left=tier.pct;
-   fader.append(bar,thumb);
-   const ticks=R.el('div',undefined,'stack-fader-ticks');
-   ['-12dB','-6dB','0dB','+3dB','+6dB'].forEach(tick=>ticks.append(R.el('span',tick)));
-   card.append(top,name,fader,ticks);
+   card.append(top,name);
    const projects=STACK_PROJECTS[item.instrument]||[];
    if(projects.length){
     const proof=R.el('div',undefined,'stack-card-proof');
-    proof.append(R.el('span','proven in:','stack-card-proof-label'));
+    proof.append(R.el('span','used in:','stack-card-proof-label'));
     projects.forEach(p=>{
      const chip=R.el('button',p.title+' ↗','stack-proof-btn action');
      chip.type='button';
@@ -228,6 +220,6 @@ function renderLinksHub(){
  return root;
 }
 add('links',['link','socials','urls','connect'],'core','All external links & outposts',()=>renderLinksHub());
-add('stack',['skills','tools','tech'],'lab','Mixer — console signal chain & tech stack',c=>renderStackMixer(c));
+add('stack',['skills','tools','tech'],'lab','Tech stack & workflows',c=>renderStackMixer(c));
 add('shuffle',['random','surprise'],'lab','Random project',c=>{const choices=list.filter(x=>!x.wip),pick=choices[Math.floor(Math.random()*choices.length)];if(state.reduced())return openProject(pick.slug,c);const d=R.el('section');d.dataset.projectSlug=pick.slug;const headline=R.bullet('Shuffling…');d.append(headline);let i=0;const flicker=setInterval(()=>{headline.textContent=choices[(i++)%choices.length].title},75);setTimeout(()=>{clearInterval(flicker);if(!d.isConnected)return;const card=openProject(pick.slug,c);d.replaceChildren(...card.childNodes)},600);return d});add('timeline',['discography','years'],'lab','Discography',c=>{const d=R.el('section');d.append(R.bullet('Discography'));for(const y of [...new Set(list.map(x=>x.year))].sort().reverse()){d.append(R.el('p',`${y} ─┬─`));const tracks=list.filter(x=>x.year===y);tracks.forEach((p,i)=>{const b=R.el('button',`${i===tracks.length-1?'└─':'├─'} ${p.title}   ${p.tags[0]}${p.wip?' · in the studio':''}`,'action timeline-row');b.addEventListener('click',()=>c.run('/projects '+p.slug));d.append(b)})}return d});add('ascii',['banner','logo'],'lab','Banner',()=>{const d=R.el('section',undefined,'ascii-card'),art=R.el('pre',undefined,'ascii-art ascii'),lines=COPY.ascii.split('\n'),frame=['╭─ RAKSHIT HOODA · LAB '+ '─'.repeat(18)+'╮',...lines.map(line=>'│ '+line+' │'),'╰'+ '─'.repeat(76)+'╯'];frame.forEach((line,i)=>{art.append(R.el('span',line,'ascii-line'));if(i<frame.length-1)art.append(document.createTextNode('\n'))});d.append(art);return d});const files=[['work/        09 tracks','/work'],['lab/          06 projects','/lab'],['about.md','/about'],['contact.md','/contact'],['now-playing','/now-playing'],['themes/','/themes'],['resume.pdf','/resume']];add('ls',['dir','tree'],'lab','List files',c=>{const d=R.el('section');for(const [label,path] of files){const b=R.el('button',label,'action');b.addEventListener('click',()=>c.run(path));d.append(b)}return d});add('cat',[],'lab','Read a file',c=>{const key=c.args.toLowerCase().replace(/^\//,'');const item=files.find(([label,path])=>path.slice(1)===key||label.trim().replace(/\/$/,'')===key);if(item){c.run(item[1]);return R.el('p','')}return R.bullet(`cat: ${c.args}: no such track`)},'<file>');add('eq',['rain','spectrum'],'lab','Spectrum level',c=>{if(['off','ambient','loud'].includes(c.args))setRain(c.args);return R.bullet(`${state.rain()} · off · ambient · loud`)},'<level>');add('history',[],'lab','Command history',c=>{const d=R.el('section');for(const command of state.history()){const b=R.el('button',command,'action');b.addEventListener('click',()=>c.run(command));d.append(b)}return d});add('credits',['footer','colophon'],'lab','Credits',()=>R.el('pre','Built with caffeine and questionable decisions.\nType: JetBrains Mono. Hosting: Vercel. Now playing: Spotify.\nFrameworks: none. Dependencies: none. Build step: none.\nEnd of the lab — thanks for stopping by.'));
 add('sudo',[],'hidden','sudoers',()=>R.bullet('rkhooda is not in the sudoers file. This incident will be reported.'));add('rm',[],'hidden','remove',()=>R.bullet('Permission denied. Nice try.'));add('vim',['vi','nano'],'hidden','vim',()=>{import('./state.js').then(m=>m.armVim());return R.bullet("You're in vim now. :q to leave. (I know.)")});add('exit',['quit','q'],'hidden','exit',()=>R.bullet("There's no exit. It's a website. ⌘W works though."));add('matrix',[],'hidden','matrix',c=>{if(state.reduced())return R.bullet('Green mode for five seconds. Don\'t tell anyone.');const old=state.rain();setRain('loud');document.documentElement.classList.add('matrix');setTimeout(()=>{setRain(old);document.documentElement.classList.remove('matrix')},5000);return R.bullet('Green mode for five seconds. Don\'t tell anyone.')});
